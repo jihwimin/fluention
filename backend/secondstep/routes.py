@@ -1,32 +1,52 @@
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, UploadFile, File, HTTPException
 from pydantic import BaseModel
-from speech_processing import transcribe_audio_google  # ✅ Fix the import
-from grammar_analysis import analyze_sentence
+from grammar_analysis import correct_sentence, score_sentence
 from generate_image import generate_image
-from score_analysis import calculate_score
+from speech_processing import transcribe_audio_google
 
 router = APIRouter()
 
+class SpeechInput(BaseModel):
+    text: str
+    scenario_prompt: str  # ✅ Now including the original scenario for accurate analysis
+
 @router.get("/generate-image/")
-async def get_image(difficulty: str = "easy"):
-    image_url = generate_image(difficulty)
-    return {"image_url": image_url}
+async def get_image():
+    """
+    API endpoint to generate an AI-generated image and scenario.
+    """
+    image_data = generate_image()
+    if not image_data:
+        raise HTTPException(status_code=500, detail="Failed to generate image.")
+    
+    return image_data  # ✅ Now returns both image_url and scenario_prompt
 
 @router.post("/transcribe/")
 async def transcribe(file: UploadFile = File(...)):
-    text = transcribe_audio_google(file.filename)  # ✅ Update function call
-    corrected_text = analyze_sentence(text)
-    score = calculate_score(text, corrected_text)
-    
-    return {"original": text, "corrected": corrected_text, "score": score}
+    """
+    API endpoint to transcribe audio and return corrected text with a score.
+    """
+    try:
+        text = transcribe_audio_google(file.filename)
+        return {"transcribed_text": text}
 
-
-class SpeechInput(BaseModel):
-    text: str
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/process-text/")
-async def process_text(data: SpeechInput):
-    corrected_text = analyze_sentence(data.text)
-    score = calculate_score(data.text, corrected_text)
-    
-    return {"original": data.text, "corrected": corrected_text, "score": score}
+async def process_text(request: SpeechInput):
+    """
+    API endpoint that takes user input, corrects the sentence, and computes a pronunciation score.
+    """
+    try:
+        corrected_text = correct_sentence(request.text, request.scenario_prompt)
+        score = score_sentence(request.text, corrected_text, request.scenario_prompt)
+
+        return {
+            "original": request.text,
+            "corrected": corrected_text,
+            "score": score
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

@@ -1,12 +1,17 @@
+import difflib
+
 def calculate_score(original_sentence: str, corrected_sentence: str):
     if not isinstance(corrected_sentence, str):
-        corrected_sentence = str(corrected_sentence)  # ✅ Ensure it's a string
+        corrected_sentence = str(corrected_sentence)
 
-    original_words = set(original_sentence.split())
-    corrected_words = set(corrected_sentence.split())
+    original_words = original_sentence.lower().strip().split()
+    corrected_words = corrected_sentence.lower().strip().split()
 
-    if len(original_words) == 0:
-        return 0  # Avoid division by zero
+    if not original_words:  # Avoid division by zero
+        return 0
 
-    similarity = len(original_words & corrected_words) / len(original_words)
-    return round(similarity * 100)
+    # Use SequenceMatcher to check similarity ratio
+    similarity = difflib.SequenceMatcher(None, original_sentence, corrected_sentence).ratio()
+    score = round(similarity * 100)
+
+    return score
