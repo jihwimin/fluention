@@ -44,14 +44,21 @@ export default function Home() {
                   width={130}
                   height={130}
               />
+
+              {/* About Fluention */}
+              <div className={styles.aboutText}>
+                  <h2>What is Fluention?</h2>
+                  <p>
+                      <span className={styles["highlight-fluent"]}>Fluent:</span> Able to express oneself easily and
+                      articulately.
+                  </p>
+                  <p>
+                      <span className={styles["highlight-tion"]}>-tion:</span> Forming nouns of action.
+                  </p>
+              </div>
+
           </div>
 
-          {/* About Fluention */}
-          <section className={styles.about}>
-              <h2>What is Fluention?</h2>
-              <p><strong>Fluent:</strong> Able to express oneself easily and articulately.</p>
-              <p><strong>-tion:</strong> Forming nouns of action.</p>
-          </section>
 
           {/* Problem & Solution Sections */}
           <section className={styles.problem}>

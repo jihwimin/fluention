@@ -55,9 +55,11 @@
 .hero {
   position: relative;
   background-color: #fff; /* White background */
-  min-height: 1300px; /* Increase height */
+  min-height: 1700px; /* Increase height */
   margin-top: 80px; /* Push down below the fixed header */
   text-align: center;
+  justify-content: center;
+  display: flex;
   overflow: hidden;
   z-index: 0;
 }
@@ -165,14 +167,48 @@
 
 .hero .bigYellowCircle {
   position: absolute;
-  top: 35%; /* Adjust vertical position */
+  top: 28%; /* Adjust vertical position */
   left: -400px; /* Move slightly out of the screen */
   width: 800px; /* Adjust size */
   height: 800px;
   background-color: #FFC525;
   border-radius: 50%;
+  flex-shrink: 0;
   z-index: -1; /* Keep it behind content */
 }
+
+.aboutText {
+  position: absolute; /* Make it positioned relative to .hero */
+  top: 57%; /* Center it vertically */
+  left: 40%; /* Move it to the right side */
+  transform: translate(0, -50%); /* Adjust vertical alignment */
+  width:800px; /* Keep width controlled */
+  background-color: white;
+  padding: 90px;
+  border-radius: 30px;
+  border: 1px solid #FF9525;
+  text-align: left;
+}
+
+.aboutText h2 {
+  font-size: 2.3rem;
+  font-weight: normal; /* Remove bold */
+  color: black;
+  margin-bottom: 80px;
+}
+
+.aboutText .highlight-fluent {
+  color: #FF9525; /* Orange */
+  font-weight: bold;
+}
+
+.aboutText .highlight-tion {
+  color: #FF6225; /* Reddish Orange */
+  font-weight: bold;
+  display: inline-block;
+  margin-left: 40px; /* Indent "-tion" */
+}
+
 
 
 
