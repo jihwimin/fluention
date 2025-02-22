@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from routes import router
+import os
 
 app = FastAPI()
 
@@ -13,6 +15,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ✅ Serve static files (MP3 audio files)
+if not os.path.exists("static"):
+    os.makedirs("static")  # Ensure the "static" folder exists
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# ✅ Include other routes
 app.include_router(router)
 
 @app.get("/")

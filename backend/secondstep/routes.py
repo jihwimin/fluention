@@ -8,35 +8,34 @@ router = APIRouter()
 
 class SpeechInput(BaseModel):
     text: str
-    scenario_prompt: str  # ✅ Now including the original scenario for accurate analysis
+    scenario_prompt: str  # ✅ Includes the original scenario
 
 @router.get("/generate-image/")
 async def get_image():
     """
-    API endpoint to generate an AI-generated image and scenario.
+    Generates an AI-generated image and scenario.
     """
     image_data = generate_image()
     if not image_data:
         raise HTTPException(status_code=500, detail="Failed to generate image.")
     
-    return image_data  # ✅ Now returns both image_url and scenario_prompt
+    return image_data  # ✅ Returns both image_url and scenario_prompt
 
 @router.post("/transcribe/")
 async def transcribe(file: UploadFile = File(...)):
     """
-    API endpoint to transcribe audio and return corrected text with a score.
+    Transcribes audio and returns the text.
     """
     try:
         text = transcribe_audio_google(file.filename)
         return {"transcribed_text": text}
-
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/process-text/")
 async def process_text(request: SpeechInput):
     """
-    API endpoint that takes user input, corrects the sentence, and computes a pronunciation score.
+    Processes the user's speech, corrects it, and computes a score.
     """
     try:
         corrected_text = correct_sentence(request.text, request.scenario_prompt)

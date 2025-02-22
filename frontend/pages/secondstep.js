@@ -4,20 +4,21 @@ import styles from "../styles/secondstep.module.css";
 
 export default function SecondStep() {
   const [imageUrl, setImageUrl] = useState("");
-  const [scenario, setScenario] = useState(""); // ✅ Scenario stored internally
+  const [scenario, setScenario] = useState(""); // Store scenario internally
   const [text, setText] = useState("");
   const [correctedText, setCorrectedText] = useState("");
   const [score, setScore] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false); // ✅ Tracks if TTS is playing
 
-  // Fetch AI-generated image & store scenario internally (but don't display it)
+  // Fetch AI-generated image & store scenario internally
   const fetchImage = async () => {
     try {
       setLoading(true);
       const response = await axios.get("http://localhost:8000/generate-image/");
       setImageUrl(response.data.image_url);
-      setScenario(response.data.scenario_prompt); // ✅ Store scenario for AI comparison (but don't show it)
+      setScenario(response.data.scenario_prompt); // Store scenario for AI comparison
     } catch (error) {
       console.error("Error fetching image:", error);
     } finally {
@@ -57,17 +58,47 @@ export default function SecondStep() {
     };
   };
 
+  // Speak out the AI-corrected response using Text-to-Speech
+  const speakText = (text) => {
+    if ("speechSynthesis" in window) {
+      stopSpeaking(); // Stop any previous speech before speaking again
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US"; // Set language
+      utterance.rate = 1; // Normal speaking rate
+
+      utterance.onstart = () => setIsSpeaking(true);
+      utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = () => setIsSpeaking(false);
+
+      speechSynthesis.speak(utterance);
+    } else {
+      alert("Text-to-Speech is not supported in your browser.");
+    }
+  };
+
+  // Stop the current AI speech
+  const stopSpeaking = () => {
+    if (isSpeaking) {
+      speechSynthesis.cancel(); // ✅ Stop the current speech
+      setIsSpeaking(false);
+    }
+  };
+
   // Send speech text to backend (with stored scenario)
   const sendSpeechToBackend = async (speechText) => {
     try {
       const response = await axios.post("http://localhost:8000/process-text/", {
         text: speechText,
-        scenario_prompt: scenario, // ✅ Include scenario for AI comparison
+        scenario_prompt: scenario, // Include scenario for AI comparison
       });
 
       if (response.data) {
         setCorrectedText(response.data.corrected || "No correction available.");
         setScore(response.data.score !== undefined ? response.data.score : "N/A");
+
+        // Speak the corrected text automatically
+        speakText(response.data.corrected);
       }
     } catch (error) {
       console.error("Error processing speech:", error);
@@ -100,6 +131,11 @@ export default function SecondStep() {
         <div className={styles.resultContainer}>
           <p><strong>Your Description:</strong> {text}</p>
           <p><strong>AI Corrected:</strong> {correctedText}</p>
+
+          {/* Speak & Stop Buttons */}
+          <button className={styles.button} onClick={() => speakText(correctedText)}>🔊 Replay</button>
+          <button className={styles.button} onClick={stopSpeaking} disabled={!isSpeaking}>⏹ Stop</button>
+
           <p><strong>Score:</strong> {score}/100</p>
         </div>
       )}
