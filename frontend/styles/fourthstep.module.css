@@ -1,16 +1,109 @@
-.container {
-  max-width: 800px;
-  margin: auto;
+.fourthstepContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
+  background-color: #f0f4f7;
+  min-height: 100vh;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.voiceSelection {
+  margin-bottom: 30px;
   text-align: center;
 }
 
-h1 {
-  color: #4A90E2;
-  font-size: 2rem;
+.voiceSelection label {
+  font-size: 1.2rem;
+  margin-right: 10px;
+  color: #333;
 }
 
-p {
-  font-size: 1.2rem;
-  color: #555;
+.dropdown {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.chatContainer {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 30px;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  height: 250px;
+}
+
+.message {
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+.user {
+  text-align: left;
+  color: #4a90e2;
+}
+
+.ai {
+  text-align: right;
+  color: #3b3b3b;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.recordButton {
+  background-color: #4caf50;
+  color: white;
+}
+
+.recordButton:disabled {
+  background-color: #c1e1c1;
+}
+
+.stopButton {
+  background-color: #f44336;
+  color: white;
+}
+
+.stopButton:disabled {
+  background-color: #f8d7d7;
+}
+
+.audioContainer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.audio {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 5px;
 }
