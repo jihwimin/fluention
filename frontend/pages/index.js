@@ -20,6 +20,8 @@ export default function Home() {
           </nav>
 
           <div className={styles.hero}>
+              {/* Large Yellow Circle */}
+              <div className={styles.bigYellowCircle}></div>
               {/* Two Overlapping Circles */}
               <div className={styles.yellowCircle}></div>
               <div className={styles.orangeCircle}></div>
