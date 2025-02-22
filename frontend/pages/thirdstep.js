@@ -1,3 +1,5 @@
+import styles from '../styles/thirdstep.module.css';
+
 export default function Step3() {
   return (
     <div>

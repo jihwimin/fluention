@@ -1,3 +1,6 @@
+import styles from '../styles/speechassistant.module.css';
+
+
 export default function SpeechAssistant() {
   return (
     <div>

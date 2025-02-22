@@ -1,3 +1,5 @@
+import styles from '../styles/translator.module.css';
+
 export default function Translator() {
   return (
     <div>

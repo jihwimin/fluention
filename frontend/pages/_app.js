@@ -1,7 +1,15 @@
-import "../styles/global.css"; // Import global styles
+import '../styles/global.css';
+import { Livvic } from 'next/font/google';
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+const livvic = Livvic({
+  subsets: ['latin'],
+  weight: ['300', '400', '700'], // Choose the weights you need
+});
+
+export default function MyApp({ Component, pageProps }) {
+  return (
+    <div className={livvic.className}>
+      <Component {...pageProps} />
+    </div>
+  );
 }
-
-export default MyApp;

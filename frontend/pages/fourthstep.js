@@ -1,3 +1,5 @@
+import styles from '../styles/fourthstep.module.css';
+
 export default function Step4() {
   return (
     <div>

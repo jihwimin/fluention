@@ -1,16 +1,224 @@
 .container {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
   text-align: center;
 }
 
-.title {
-  color: #4A90E2;
-  font-size: 2rem;
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 20px 17px 30px; /* top right bottom left */
+  height: 30px; /* Set fixed height */
+  background-color: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); /* Drop Shadow */
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
 }
 
-.paragraph {
-  font-size: 1.2rem;
-  color: #555;
+.navLinks a {
+  font-size: 1rem; /* Increase from 1rem to 1.2rem */
+  white-space: nowrap;
+  text-decoration: none;
+  font-weight: normal;
+  color: black;
+}
+
+
+.navLinks {
+  list-style: none;
+  display: flex;
+  flex: 1;  /* Make sure items spread evenly */
+  justify-content: space-evenly; /* Spread items evenly */
+  align-items: center;
+  font-size: 1rem;
+}
+
+.auth a {
+  white-space: nowrap;
+  text-decoration: none; /* Removes underline */
+  font-weight: normal; /* Removes boldness */
+  color: black; /* Matches other links */
+}
+
+.auth {
+  margin-left: 50px; /* Keeps spacing */
+  padding-right: -30px;
+}
+
+
+.navLinks li {
+  font-size: 1rem;
+}
+
+.hero {
+  position: relative;
+  background-color: #fff; /* White background */
+  min-height: 1300px; /* Increase height */
+  margin-top: 80px; /* Push down below the fixed header */
+  text-align: center;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.heroText {
+  font-weight: normal; /* Removes bold */
+  font-size: 2.7rem; /* Adjust size as needed */
+  line-height: 1.2; /* Improves readability */
+  text-align: center;
+  position: absolute; /* Allows overlapping */
+  top: 310px; /* Adjust the vertical position */
+  left: 50%;
+  transform: translate(-50%, -40%); /* Center text but move slightly lower */
+  z-index: 2; /* Ensure it's above the background circle */
+}
+
+.heroText span {
+  display: block;
+}
+
+
+.heroText .line1 {
+  display: block;
+  letter-spacing: -1px; /* Adjust spacing for slight overlap */
+  position: relative;
+  left: -70px;
+}
+
+.heroText .line2 {
+  display: block;
+  margin-top: 5px; /* Small gap between the lines */
+  position: relative;
+  right: -230px; /* Moves "with AI-Assisted Learning" slightly to the right */
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -330px;        /* Move circle above the hero's top */
+  right: -330px;      /* Move circle beyond the hero's right edge */
+  width: 700px;
+  height: 700px;
+  background-color: #FF9525;
+  border-radius: 50%;
+  z-index: -1;        /* Behind hero text but in front of body */
+}
+
+
+/* Large Yellow Circle */
+.hero .yellowCircle {
+  position: absolute;
+  top: 175px; /* Adjust vertical position */
+  left: 25%; /* Center horizontally */
+  width: 150px; /* Adjust the size */
+  height: 150px;
+  background-color: #FF6225;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+/* Small Orange Circle (Slightly Overlapping) */
+.hero .orangeCircle {
+  position: absolute;
+  top: 210px;
+  left: 17.5%;
+  width: 150px;
+  height: 150px;
+  background-color: #FFC525;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+/* White Circles to Create Cutout Effect */
+.hero .whiteCover1 {
+  position: absolute;
+  top: 250px;
+  left: 22%;
+  width: 150px;
+  height: 150px;
+  background-color: #fff;
+  border-radius: 50%;
+  z-index: 0; /* Make sure it's above the colored circles */
+}
+
+.hero .whiteCover2 {
+  position: absolute;
+  top: 230px;
+  left: 28%;
+  width: 150px;
+  height: 150px;
+  background-color: #fff;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.hero .bottomRightLogo {
+  position: absolute;
+  top: 400px;
+  bottom: -60px; /* Adjust vertical position */
+  right: 150px; /* Adjust horizontal position */
+  width: 280px; /* Adjust size */
+  height: auto;
+  z-index: 2; /* Keep it above background elements */
+}
+
+
+
+
+
+
+
+
+.about {
+  padding: 40px;
+}
+
+.problem {
+  background-color: #FF6225;
+  padding: 40px;
+  color: white;
+}
+
+.solution {
+  padding: 40px;
+  background-color: #FFC525;
+}
+
+.services {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 40px;
+}
+
+.serviceBox {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 40%;
+}
+
+.aboutUs {
+  padding: 40px;
+}
+
+.footer {
+  background-color: #FF6225;
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+.footerLinks {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px 0;
+}
+
+.footerLinks a {
+  color: white;
+  text-decoration: none;
 }

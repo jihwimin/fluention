@@ -1,3 +1,5 @@
+import styles from '../styles/firststep.module.css';
+
 export default function Step1() {
   return (
     <div>
