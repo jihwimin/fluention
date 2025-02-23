@@ -118,10 +118,17 @@ export default function SecondStep() {
       <div className={styles.fixedContainer}>
         <h2 className={styles.title}>Receptive & Expressive Language Development</h2>
 
-        {/* Generate Image Button */}
-        <button className={styles.button} onClick={fetchImage} disabled={loading}>
-          {loading ? "Generating..." : "Generate Image"}
-        </button>
+        <div className={styles.buttonContainer}>
+          {/* Generate Image Button */}
+          <button className={styles.button} onClick={fetchImage} disabled={loading}>
+            {loading ? "Generating..." : "Generate Image"}
+          </button>
+
+          {/* Start Recording Button */}
+          <button className={styles.button} onClick={startRecording} disabled={isRecording}>
+            {isRecording ? "Listening..." : "Press to Speak 🎤"}
+          </button>
+        </div>
 
         {/* Display AI-generated image */}
         {imageUrl && (
@@ -130,18 +137,17 @@ export default function SecondStep() {
           </div>
         )}
 
-        {/* Start Recording Button */}
-        <button className={styles.button} onClick={startRecording} disabled={isRecording}>
-          {isRecording ? "Listening..." : "Press to Speak 🎤"}
-        </button>
-
         {/* Display User Input & AI Feedback */}
         {text && (
           <div className={styles.resultContainer}>
             <p><strong>Your Description:</strong> {text}</p>
             <p><strong>AI Corrected:</strong> {correctedText}</p>
-            <button className={styles.button} onClick={() => speakText(correctedText)}>🔊 Replay</button>
-            <button className={styles.button} onClick={stopSpeaking} disabled={!isSpeaking}>⏹ Stop</button>
+            {/* Replay & Stop Buttons */}
+            <div className={styles.replayStopContainer}>
+              <button className={styles.buttonReplay} onClick={() => speakText(correctedText)}>🔊 Replay</button>
+              <button className={styles.buttonStop} onClick={stopSpeaking} disabled={!isSpeaking}>⏹ Stop</button>
+            </div>
+
             <p><strong>Score:</strong> {score}/100</p>
           </div>
         )}

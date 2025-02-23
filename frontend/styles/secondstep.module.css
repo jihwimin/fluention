@@ -86,7 +86,16 @@
   cursor: pointer;
   margin: 15px 0;
   transition: background 0.3s ease;
+  min-width: 180px; /* Ensures both buttons are the same width */
+  text-align: center;
 }
+.buttonContainer {
+  display: flex;
+  justify-content: center; /* Center both buttons */
+  gap: 50px; /* Adjust spacing between buttons (increase for more space) */
+  margin-top: 20px; /* Add some space from the previous element */
+}
+
 
 .button:hover {
   background-color: #FFB400;
@@ -190,3 +199,43 @@
 
 /* footer finish */
 
+
+.replayStopContainer {
+  display: flex;
+  justify-content: center;
+  gap: 80px; /* Adjust this value for more space */
+  margin-top: 20px;
+}
+.buttonReplay, .buttonStop {
+  padding: 12px 24px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  min-width: 160px; /* Ensure both buttons have the same width */
+  text-align: center;
+}
+
+/* Replay Button */
+.buttonReplay {
+  background-color: #FFC525;
+  color: black;
+}
+
+.buttonReplay:hover {
+  background-color: #FFB400;
+}
+
+/* Stop Button */
+.buttonStop {
+  background-color: #FF6225;
+  color: white;
+}
+
+.buttonStop:hover {
+  background-color: #E04D1A;
+}
+.replayStopContainer {
+  gap: 100px; /* Increase spacing */
+}
