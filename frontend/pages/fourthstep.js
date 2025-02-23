@@ -1,16 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
-import styles from "../styles/fourthstep.module.css"; // Adjust path as needed
+import styles from "../styles/fourthstep.module.css"; // Adjust the path if needed
 
 export default function FourthStep() {
-    const [selectedVoice, setSelectedVoice] = useState("female-adult"); // Default voice
+    const [selectedVoice, setSelectedVoice] = useState("female-child"); // Default voice
     const [isRecording, setIsRecording] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
-    const [text, setText] = useState("");
-    const [messages, setMessages] = useState([]);
-    const [audioUrl, setAudioUrl] = useState("");
+    const [messages, setMessages] = useState([]); // Stores chat history
+    const [currentAudio, setCurrentAudio] = useState(null);
 
-    // Start recording voice input
+    // ✅ Start recording voice input
     const startRecording = () => {
         const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.lang = "en-US";
@@ -22,7 +21,7 @@ export default function FourthStep() {
 
         recognition.onresult = (event) => {
             const userSpeech = event.results[0][0].transcript;
-            setText(userSpeech);
+            addMessage("user", userSpeech);
             sendSpeechToBackend(userSpeech);
         };
 
@@ -37,107 +36,73 @@ export default function FourthStep() {
         };
     };
 
-    // Stop speaking (if speech is playing)
+    // ✅ Stop speaking (if audio is playing)
     const stopSpeaking = () => {
-        if (isSpeaking) {
-            speechSynthesis.cancel();
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
             setIsSpeaking(false);
         }
     };
 
-    // Speak out text using Text-to-Speech
-    const speakText = (text) => {
-        if ("speechSynthesis" in window) {
-            stopSpeaking(); // Stop previous speech
+    // ✅ Play AI-generated audio
+    const playAudio = (url) => {
+        if (!url) return;
 
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = "en-US";
-            utterance.rate = 1;
+        const audio = new Audio(url);
+        setCurrentAudio(audio);
 
-            utterance.onstart = () => setIsSpeaking(true);
-            utterance.onend = () => setIsSpeaking(false);
-            utterance.onerror = () => setIsSpeaking(false);
+        audio.play()
+            .then(() => setIsSpeaking(true))
+            .catch((error) => console.error("Error playing audio:", error));
 
-            speechSynthesis.speak(utterance);
-        } else {
-            alert("Text-to-Speech is not supported in your browser.");
-        }
+        audio.onended = () => setIsSpeaking(false);
     };
 
-    // Send speech text to the backend for processing
-    // Send text to backend for processing
+    // ✅ Send speech text to backend
     const sendSpeechToBackend = async (speechText) => {
-      try {
-          const [gender, age] = selectedVoice.split("-"); // Ensure correct format
-  
-          const requestBody = {
-              text: speechText.trim(), // ✅ Remove extra spaces
-              gender: gender.toLowerCase(), // ✅ Ensure correct lowercase format
-              age: age.toLowerCase(), // ✅ Ensure correct lowercase format
-          };
-  
-          console.log("Sending request:", requestBody); // Debugging: Log request
-  
-          const response = await axios.post("http://localhost:8000/fourthstep/process-voice/", requestBody, {
-              headers: { "Content-Type": "application/json" },
-          });
-  
-          if (response.data) {
-              setMessages((prevMessages) => [...prevMessages, { sender: "ai", text: response.data.reply }]);
-  
-              // Play the AI-generated speech
-              if (response.data.audio_url) {
-                  const audio = new Audio(response.data.audio_url);
-                  audio.play();
-              }
-          }
-      } catch (error) {
-          console.error("Error processing speech:", error.response?.data || error.message);
-      }
-  };
-    // Play the generated audio
-    // ✅ Play the generated audio
-const playAudio = (audioUrl) => {
-  if (!audioUrl) {
-      console.error("No audio URL provided!");
-      return;
-  }
+        try {
+            const [gender, age] = selectedVoice.split("-");
 
-  const audio = new Audio(audioUrl);
-  audio.play()
-      .then(() => console.log("Playing audio..."))
-      .catch((error) => console.error("Error playing audio:", error));
-};
+            const response = await axios.post("http://localhost:8000/fourthstep/process-voice/", {
+                text: speechText,
+                gender: gender,
+                age: age,
+            });
 
-    // Handle voice selection change
-    const handleVoiceChange = (e) => {
-        setSelectedVoice(e.target.value);
-    };
+            if (response.data) {
+                const aiResponse = response.data.reply;
+                const audioUrl = response.data.audio_url ? "http://localhost:8000" + response.data.audio_url : null;
 
-    // Add user and AI messages to chat
-    const addMessage = (sender, text) => {
-        setMessages((prevMessages) => [...prevMessages, { sender, text }]);
-    };
+                // ✅ Add AI response immediately to the chat
+                addMessage("ai", aiResponse, audioUrl);
 
-    // Handle start recording and send text to backend
-    useEffect(() => {
-        if (text) {
-            addMessage("user", text);
+                // ✅ Play AI-generated speech first before showing buttons
+                if (audioUrl) {
+                    playAudio(audioUrl);
+                }
+            }
+        } catch (error) {
+            console.error("Error processing speech:", error);
         }
-    }, [text]);
+    };
+
+    // ✅ Add messages to chat with optional audio
+    const addMessage = (sender, text, audio = null) => {
+        setMessages((prevMessages) => [
+            ...prevMessages, 
+            { sender, text, audio }
+        ]);
+    };
 
     return (
         <div className={styles.fourthstepContainer}>
             <h1 className={styles.title}>Fluention AI Voice Assistant</h1>
 
-            {/* Voice Selection */}
+            {/* ✅ Voice Selection */}
             <div className={styles.voiceSelection}>
                 <label>Choose Voice:</label>
-                <select
-                    className={styles.dropdown}
-                    onChange={handleVoiceChange}
-                    value={selectedVoice}
-                >
+                <select className={styles.dropdown} onChange={(e) => setSelectedVoice(e.target.value)} value={selectedVoice}>
                     <option value="female-adult">Female - Adult</option>
                     <option value="male-adult">Male - Adult</option>
                     <option value="female-child">Female - Child</option>
@@ -145,39 +110,27 @@ const playAudio = (audioUrl) => {
                 </select>
             </div>
 
-            {/* Chat Container */}
+            {/* ✅ Chat Container */}
             <div className={styles.chatContainer}>
                 {messages.map((msg, index) => (
                     <div key={index} className={`${styles.message} ${msg.sender === "ai" ? styles.ai : styles.user}`}>
-                        {msg.text}
+                        <p>{msg.text}</p>
+                        {msg.audio && (
+                            <div className={styles.audioControls}>
+                                <button onClick={() => playAudio(msg.audio)}>🔊 Replay</button>
+                                <button onClick={stopSpeaking} disabled={!isSpeaking}>⏹ Stop</button>
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>
 
-            {/* Mic and Stop Buttons */}
+            {/* ✅ Mic and Stop Buttons */}
             <div className={styles.buttonContainer}>
-                <button
-                    className={`${styles.button} ${styles.recordButton}`}
-                    onClick={startRecording}
-                    disabled={isRecording}
-                >
+                <button className={styles.recordButton} onClick={startRecording} disabled={isRecording}>
                     {isRecording ? "Listening..." : "Press to Speak 🎤"}
                 </button>
-                <button
-                    className={`${styles.button} ${styles.stopButton}`}
-                    onClick={stopSpeaking}
-                    disabled={!isSpeaking}
-                >
-                    ⏹ Stop
-                </button>
             </div>
-
-            {/* Audio Playback */}
-            {audioUrl && (
-                <div className={styles.audioContainer}>
-                    <audio controls src={audioUrl} />
-                </div>
-            )}
         </div>
     );
 }
