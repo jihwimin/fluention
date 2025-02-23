@@ -1,36 +1,36 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "../styles/thirdstep.module.css";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function ThirdStep() {
     const [currentWord, setCurrentWord] = useState("");
     const [userSpeech, setUserSpeech] = useState("");
-    const [feedback, setFeedback] = useState("");
     const [isRecording, setIsRecording] = useState(false);
     const [audioUrl, setAudioUrl] = useState("");
+    const [containerColor, setContainerColor] = useState(styles.fixedContainer); // Default white container
 
     const playAudio = (audioUrl) => {
-      if (!audioUrl) {
-          console.error("[ERROR] No valid audio URL to play.");
-          return;
-      }
-  
-      const audio = new Audio(audioUrl);
-      audio.play()
-          .then(() => console.log("[DEBUG] Streaming audio is playing:", audioUrl))
-          .catch((error) => console.error("[ERROR] Failed to play streamed audio:", error));
-  };
-  
-  
+        if (!audioUrl) {
+            console.error("[ERROR] No valid audio URL to play.");
+            return;
+        }
 
-    // Fetch a challenging word from the backend
+        const audio = new Audio(audioUrl);
+        audio.play()
+            .then(() => console.log("[DEBUG] Streaming audio is playing:", audioUrl))
+            .catch((error) => console.error("[ERROR] Failed to play streamed audio:", error));
+    };
+
+    // Fetch a new word from the backend
     const fetchWord = async () => {
         try {
+            setContainerColor(styles.fixedContainer); // Reset container color to white
+            setUserSpeech(""); 
+            setAudioUrl(""); 
             const response = await axios.get("http://localhost:8000/thirdstep/get-word/");
             setCurrentWord(response.data.word);
-            setFeedback(""); // Reset feedback for a new round
-            setUserSpeech(""); // Clear previous user input
-            setAudioUrl(""); // Reset audio
         } catch (error) {
             console.error("Error fetching word:", error);
         }
@@ -38,29 +38,23 @@ export default function ThirdStep() {
 
     // Play TTS pronunciation for the word
     const playWordPronunciation = async () => {
-      if (!currentWord) return;
-  
-      try {
-          const response = await axios.get(`http://localhost:8000/thirdstep/text-to-speech/?word=${currentWord}`, {
-              responseType: "blob", // ✅ Receive binary audio data
-          });
-  
-          console.log("[DEBUG] Received audio stream");
-  
-          // ✅ Create an audio URL from the response blob
-          const audioUrl = URL.createObjectURL(response.data);
-          setAudioUrl(audioUrl);
-  
-          // ✅ Play streamed audio immediately
-          playAudio(audioUrl);
-      } catch (error) {
-          console.error("[ERROR] Error generating TTS:", error);
-      }
-  };
-  
+        if (!currentWord) return;
 
+        try {
+            const response = await axios.get(`http://localhost:8000/thirdstep/text-to-speech/?word=${currentWord}`, {
+                responseType: "blob",
+            });
 
-    // Start voice recording and speech recognition
+            console.log("[DEBUG] Received audio stream");
+            const audioUrl = URL.createObjectURL(response.data);
+            setAudioUrl(audioUrl);
+            playAudio(audioUrl);
+        } catch (error) {
+            console.error("[ERROR] Error generating TTS:", error);
+        }
+    };
+
+    // Start voice recording
     const startRecording = () => {
         if (!currentWord) {
             alert("Get a word first!");
@@ -92,7 +86,7 @@ export default function ThirdStep() {
         };
     };
 
-    // Send user's speech to backend for pronunciation check
+    // Check user's pronunciation
     const checkPronunciation = async (spokenWord) => {
         try {
             const response = await axios.post("http://localhost:8000/thirdstep/check-pronunciation/", {
@@ -101,12 +95,11 @@ export default function ThirdStep() {
             });
 
             if (response.data.correct) {
-                setFeedback("✅ Correct!");
+                setContainerColor(styles.correctContainer); // Turns green if correct
             } else {
-                setFeedback("❌ Incorrect!");
+                setContainerColor(styles.incorrectContainer); // Turns red if incorrect
             }
 
-            // Fetch a new word after 2 seconds
             setTimeout(fetchWord, 2000);
         } catch (error) {
             console.error("Error checking pronunciation:", error);
@@ -114,40 +107,85 @@ export default function ThirdStep() {
     };
 
     useEffect(() => {
-        fetchWord(); // Load a word when the component mounts
+        fetchWord();
     }, []);
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>Pronunciation Game</h1>
-
-            {/* Display current word */}
-            <div className={styles.wordContainer}>
-                <h2 className={styles.word}>{currentWord}</h2>
-                <button className={styles.playButton} onClick={playWordPronunciation}>
-                    🔊 Hear Pronunciation
-                </button>
-            </div>
-
-            {/* User Speech & Feedback */}
-            <div className={`${styles.feedbackBox} ${feedback === "✅ Correct!" ? styles.correct : styles.incorrect}`}>
-                {feedback && <p className={styles.feedback}>{feedback}</p>}
-            </div>
-
-            {/* Start Recording Button */}
-            <button className={styles.recordButton} onClick={startRecording} disabled={isRecording}>
-                {isRecording ? "🎤 Listening..." : "🎤 Press to Speak"}
-            </button>
-
-            {/* Show User Speech */}
-            {userSpeech && <p className={styles.userSpeech}>You said: <strong>{userSpeech}</strong></p>}
-
-            {/* Play AI Pronunciation Again */}
-            {audioUrl && (
-                <div className={styles.audioContainer}>
-                    <audio controls src={audioUrl} autoPlay />
+            {/* Navigation Bar */}
+            <nav className={styles.navbar}>
+                <div className={styles.logo}>
+                    <Image src="/logo.png" alt="Fluention Logo" width={170} height={170}/>
                 </div>
-            )}
+                <ul className={styles.navLinks}>
+                    <li><Link href="/explanation">What is Language Disorder?</Link></li>
+                    <li><Link href="/speechassistant">Speech Assistant</Link></li>
+                    <li><Link href="/translator">Translator</Link></li>
+                    <li><Link href="/about">About Us</Link></li>
+                    <li className={styles.auth}><Link href="/login">Login / Sign Up</Link></li>
+                </ul>
+            </nav>
+
+            {/* White Fixed Container with Dynamic Color */}
+            <div className={containerColor}>
+                <h2 className={styles.title}>Vocabulary Enhancement</h2>
+
+                {/* Pronunciation Game Box */}
+                <div className={styles.gameBox}>
+                    <h3 className={styles.subtitle}>Pronunciation Game</h3>
+
+                    {/* Word and Play Button */}
+                    <div className={styles.wordContainer}>
+                        <button className={styles.wordButton}>{currentWord}</button>
+                        <button className={styles.playButton} onClick={playWordPronunciation}>
+                            🔊
+                        </button>
+                    </div>
+
+                    {/* Recording Button */}
+                    <button className={styles.recordButton} onClick={startRecording} disabled={isRecording}>
+                        {isRecording ? "🎤 Listening..." : "🎤"}
+                    </button>
+                </div>
+            </div>
+
+{/* footer begin */}
+<footer className={styles.footer}>
+              {/* Logo */}
+              <div className={styles.footerLogo}>
+                  <Image src="/logo.png" alt="Fluention Logo" width={130} height={50}/>
+              </div>
+
+              {/* Footer Links */}
+              <div className={styles.footerLinks}>
+                  <div className={styles.footerColumn}>
+                      <h4>What is Language Disorder?</h4>
+                      <h4>Speech Assistant</h4>
+                      <ul>
+                          <li>Oral & Breath Control Training</li>
+                          <li>Receptive & Expressive Language Development</li>
+                          <li>Vocabulary Enhancement</li>
+                          <li>Contextual Communication Skills</li>
+                      </ul>
+                  </div>
+
+                  <div className={styles.footerColumn}>
+                      <h4><Link href="/translator">Translator</Link></h4>
+                      <h4><Link href="/about">About Us</Link></h4>
+                  </div>
+
+                  <div className={styles.footerColumn}>
+                      <h4>Privacy Policy</h4>
+                      <h4>Terms of Service</h4>
+                      <h4>Resources & Legal Help</h4>
+                  </div>
+              </div>
+
+              {/* Copyright */}
+              <div className={styles.footerCopyright}>
+                  <p>© 2025 Fluention. All Rights Reserved.</p>
+              </div>
+          </footer>
         </div>
     );
 }
