@@ -118,7 +118,7 @@ export default function SecondStep() {
 
       {/* White Fixed Container */}
       <div className={styles.fixedContainer}>
-        <h2 className={styles.title}>Receptive & Expressive Language Development</h2>
+        <h2 className={styles.title}>Describing Image Practice</h2>
 
         <div className={styles.buttonContainer}>
             {/* Generate Image Button */}

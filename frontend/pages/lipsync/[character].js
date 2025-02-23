@@ -1,25 +1,26 @@
-import styles from "../styles/lipsync.module.css";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
+import styles from "../../styles/lipsync.module.css";
 
-export default function LipSync() {
-  // Character Data (Image and Quote)
-  const characters = [
-    { src: "/lipsync/barbie.jpeg", quote: "Every night is girls' night.", width: 400, link: "/lipsync/barbie" },
-    { src: "/lipsync/pooh.jpeg", quote: "I wasn't going to eat it, I was just going to taste it.", width: 400, link: "/lipsync/pooh" },
-    { src: "/lipsync/charlie.jpeg", quote: "Keep looking up... that's the secret of life. ...", width: 400, link: "/lipsync/charlie" },
-    { src: "/lipsync/dora.jpeg", quote: "Swiper, no swiping!", width: 400, link: "/lipsync/dora" },
-    { src: "/lipsync/loopy.jpeg", quote: "Hi! My name is Loopy.", width: 400, link: "/lipsync/loopy" }
-  ];
+export default function LipsyncVideo() {
+  const router = useRouter();
+  const { character } = router.query; // Get character name from URL
+
+  // Ensure the character is defined before using it
+  if (!character) return null;
+
+  // Map character to corresponding video file
+  const videoSrc = `/lipsyncs/sync_${character}.mp4`;
 
   return (
     <div className={styles.container}>
       {/* Navigation Bar */}
       <nav className={styles.navbar}>
         <div className={styles.logo}>
-          <Link href="/">
-            <Image src="/logo.png" alt="Fluention Logo" width={170} height={170} />
-          </Link>
+            <Link href="/">
+                <Image src="/logo.png" alt="Fluention Logo" width={170} height={170} />
+            </Link>
         </div>
         <ul className={styles.navLinks}>
           <li><Link href="/explanation">What is Language Disorder?</Link></li>
@@ -29,26 +30,17 @@ export default function LipSync() {
           <li className={styles.auth}><Link href="/login">Login / Sign Up</Link></li>
         </ul>
       </nav>
+      {/* navigation finish */}
 
       {/* Page Title */}
-      <h2 className={styles.title}>Find Your Favorite Character!</h2>
+      <h2 className={styles.title}>{character.charAt(0).toUpperCase() + character.slice(1)}'s Words</h2>
 
-      {/* Character Grid */}
-      <div className={styles.characterGrid}>
-        {characters.map((char, index) => (
-          <div key={index} className={styles.characterCard}>
-            <Link href={char.link}>
-              <Image 
-                src={char.src} 
-                alt="Character" 
-                width={char.width} 
-                height={250} /* Constant Height */
-                className={styles.characterImage} 
-              />
-            </Link>
-            <p className={styles.quote}>"{char.quote}"</p>
-          </div>
-        ))}
+      {/* Video Container */}
+      <div className={styles.videoContainer}>
+        <video className={styles.video} controls autoPlay>
+          <source src={videoSrc} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </div>
 
       {/* Footer */}
