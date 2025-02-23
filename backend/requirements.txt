@@ -6,3 +6,7 @@ python-dotenv
 gtts
 pydantic
 google-cloud-speech
+opencv-python
+numpy
+pyttsx3
+mediapipe
