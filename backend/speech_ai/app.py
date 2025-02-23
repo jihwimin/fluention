@@ -1,45 +1,45 @@
 import streamlit as st
+import sounddevice as sd
+import wavio
+import numpy as np
+import io
 import requests
 
 st.title("🎤 AI Speech-to-Text & Normalization")
 
+# 🔹 녹음 설정
+duration = 5  # 녹음 시간 (초)
+sample_rate = 44100  # 샘플링 레이트
 
-uploaded_file = st.file_uploader("File upload (MP3, WAV)", type=["mp3", "wav"])
+if st.button("🎙 Start Recording"):
+    st.write("🔴 Recording for 5 seconds...")
+    recording = sd.rec(int(duration * sample_rate), samplerate=sample_rate, channels=1, dtype=np.int16)
+    sd.wait()  # 녹음 완료까지 대기
+    st.write("✅ Recording finished.")
 
-if uploaded_file is not None:
-    
-    st.audio(uploaded_file, format="audio/mp3")
+    # WAV 파일로 변환
+    audio_bytes = io.BytesIO()
+    wavio.write(audio_bytes, recording, sample_rate, sampwidth=2)
+    audio_bytes.seek(0)
 
-    
-    with st.spinner("🎙 Processing... Please wait!"):
-        try:
-            
-            files = {"file": (uploaded_file.name, uploaded_file, uploaded_file.type)}
-            response = requests.post("http://127.0.0.1:8000/upload-audio/", files=files)
+    # FastAPI 서버로 오디오 전송
+    files = {"file": ("recorded_audio.wav", audio_bytes, "audio/wav")}
+    response = requests.post("http://127.0.0.1:8000/upload-audio/", files=files)
 
-            
-            if response.status_code == 200:
-                result = response.json()
-                
-                # Ensure both text fields exist in the response
-                if "original_text" in result and "normalized_text" in result:
-                    original_text = result["original_text"]
-                    normalized_text = result["normalized_text"]
+    if response.status_code == 200:
+        result = response.json()
+        st.success("✅ Processing complete!")
 
-                    st.success("✅ Processing complete!")
-                    
-                    st.write("📜 **Original Transcription:**")
-                    st.text_area("Original", original_text, height=100)
+        # 📝 원본 및 정규화된 텍스트 가져오기
+        original_text = result.get("original_text", "❌ No transcription received.")
+        normalized_text = result.get("normalized_text", "❌ Normalization failed.")
 
-                    st.write("✨ **GPT-4 Normalized Text:**")
-                    st.text_area("Normalized", normalized_text, height=100)
-                    
-                else:
-                    st.error("❌ Unexpected response from the server. Please check logs.")
-            else:
-                st.error(f"❌ STT conversion failed! (HTTP Status Code: {response.status_code})")
-                st.text_area("Server Response:", response.text)
+        st.write("📜 **Original Transcription:**")
+        st.text_area("Original", original_text, height=100)
 
-        except Exception as e:
-            st.error(f"❌ An error occurred: {str(e)}")
-            
+        st.write("✨ **GPT-4 Normalized Text:**")
+        st.text_area("Normalized", normalized_text, height=100)
+
+    else:
+        st.error(f"❌ STT conversion failed! (HTTP Status Code: {response.status_code})")
+        st.text_area("Server Response:", response.text)
