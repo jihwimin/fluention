@@ -2,3 +2,5 @@ frontend/node_modules/
 node_modules/
 backend/secondstep/.env.next/
 backend/.env
+frontend/.next/
+/backend/.env
