@@ -200,3 +200,32 @@
 
 /* footer finish */
 
+
+.inputContainer {
+  margin-top: 20px;
+}
+
+.textInput {
+  width: 70%;
+  height: 100px;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.generateButton {
+  background-color: #FF9525;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.generateButton:hover {
+  background-color: #FFB400;
+}

@@ -1,17 +1,84 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { useRouter } from "next/router";
+import styles from "../../styles/lipsync.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "../../styles/lipsync.module.css";
 
 export default function LipsyncVideo() {
-  const router = useRouter();
-  const { character } = router.query; // Get character name from URL
+    const router = useRouter();
+    const { character } = router.query; // ✅ Get character from URL
+    const [userText, setUserText] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [lipsyncVideo, setLipsyncVideo] = useState(null);
+    const [error, setError] = useState(null);
 
-  // Ensure the character is defined before using it
-  if (!character) return null;
+    // ✅ Define the default video path
+    const videoPath = character ? `/lipsyncs/sync_${character}.mp4` : "";
+    const characterTitle = character ? character.charAt(0).toUpperCase() + character.slice(1) : "";
 
-  // Map character to corresponding video file
-  const videoSrc = `/lipsyncs/sync_${character}.mp4`;
+    // ✅ Ensure default video plays on initial render
+    useEffect(() => {
+        if (character) {
+            setLipsyncVideo(videoPath); // Load default character video
+        }
+    }, [character]);
+
+    const generateLipsync = async () => {
+        if (!character || !userText) {
+            alert("Please enter text before generating!");
+            return;
+        }
+
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const response = await axios.post("http://localhost:8000/lipsync/generate", {
+                character,
+                text: userText
+            });
+
+            if (response.data && response.data.request_id) {
+                checkLipsyncStatus(response.data.request_id);
+            } else {
+                setError("Failed to generate lipsync video.");
+                setIsLoading(false);
+            }
+        } catch (err) {
+            console.error("Error generating lipsync:", err);
+            setError("An error occurred while generating lipsync.");
+            setIsLoading(false);
+        }
+    };
+
+    const checkLipsyncStatus = async (requestId) => {
+        let status = "pending";
+
+        while (status === "pending") {
+            try {
+                const statusResponse = await axios.get(`http://localhost:8000/lipsync/status/${requestId}`);
+                status = statusResponse.data.status;
+
+                if (status === "completed") {
+                    setLipsyncVideo(statusResponse.data.video_url); // ✅ Replace default video with generated lipsync
+                    setIsLoading(false);
+                    return;
+                } else if (status === "failed") {
+                    setError("Lipsync generation failed.");
+                    setIsLoading(false);
+                    return;
+                }
+            } catch (err) {
+                console.error("Error checking lipsync status:", err);
+                setError("Failed to check lipsync status.");
+                setIsLoading(false);
+                return;
+            }
+
+            await new Promise((resolve) => setTimeout(resolve, 3000)); // ✅ Check status every 3 seconds
+        }
+    };
 
   return (
     <div className={styles.container}>
@@ -33,16 +100,35 @@ export default function LipsyncVideo() {
       {/* navigation finish */}
 
       {/* Page Title */}
-      <h2 className={styles.title}>{character.charAt(0).toUpperCase() + character.slice(1)}'s Words</h2>
+      <h2 className={styles.title}>{characterTitle}'s Words</h2>
+      
+            {/* ✅ Video Section */}
+            <div className={styles.videoContainer}>
+                {lipsyncVideo ? (
+                    <video className={styles.video} controls autoPlay loop>
+                        <source src={lipsyncVideo} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                ) : (
+                    <p>Loading video...</p>
+                )}
+            </div>
 
-      {/* Video Container */}
-      <div className={styles.videoContainer}>
-        <video className={styles.video} controls autoPlay>
-          <source src={videoSrc} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </div>
+            {/* User Input */}
+            <div className={styles.inputContainer}>
+                <textarea
+                    className={styles.textInput}
+                    placeholder="Enter what you want the character to say..."
+                    value={userText}
+                    onChange={(e) => setUserText(e.target.value)}
+                />
+                <button className={styles.generateButton} onClick={generateLipsync} disabled={isLoading}>
+                    {isLoading ? "Generating..." : "Generate Lipsync"}
+                </button>
+            </div>
 
+            {/* Error Message */}
+            {error && <p className={styles.error}>{error}</p>}
       {/* Footer */}
       <footer className={styles.footer}>
         <div className={styles.footerLogo}>
