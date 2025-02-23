@@ -109,7 +109,7 @@ export default function FourthStep() {
             </nav>
 
             {/* Section Title */}
-            <h2 className={styles.title}>Contextual Communication Skills</h2>
+            <h2 className={styles.title}>Chat With AI Friend</h2>
 
             {/* Chat Box */}
             <div className={styles.chatBox}>
