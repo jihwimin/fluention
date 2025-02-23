@@ -105,7 +105,9 @@ export default function Home() {
                           on dysarthria rehabilitation. Train your pronunciation, articulation, and speech clarity
                           with a structured, science-backed approach—anytime, anywhere
                       </p>
-                      <button className={`${styles.learnMoreBtn} ${styles.learnMoreLeft}`}>Learn More</button>
+                      <Link href="/speechassistant">
+                          <button className={`${styles.learnMoreBtn} ${styles.learnMoreLeft}`}>Learn More</button>
+                      </Link>
                   </div>
 
                   {/* Right Service Box (Moves Down) */}
@@ -119,7 +121,9 @@ export default function Home() {
                           sentences, and complex texts into structured, understandable language, our AI bridges the
                           gap between thought and communication.
                       </p>
-                      <button className={`${styles.learnMoreBtn} ${styles.learnMoreRight}`}>Learn More</button>
+                      <Link href="/translator">
+                          <button className={`${styles.learnMoreBtn} ${styles.learnMoreRight}`}>Learn More</button>
+                      </Link>
                   </div>
               </div>
 
