@@ -56,7 +56,106 @@
 
 /* header finish */
 
+.container {
+  text-align: center;
+  padding: 80px 20px;
+}
 
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+/* Translation Box */
+.translationBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid #ff6225;
+  border-radius: 15px;
+  padding: 20px;
+  width: 80%;
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 200px;
+}
+
+/* Input Section */
+.inputSection {
+  display: flex;
+  align-items: center;
+  width: 45%;
+}
+
+.textInput {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  border: 1px solid #ffc525;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+.micButton {
+  background-color: #ffc525;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.micButton:hover {
+  background-color: #ff9525;
+}
+
+/* Divider Line */
+.divider {
+  width: 1px;
+  background-color: #ff6225;
+  height: 120px;
+}
+
+/* Output Section */
+.outputSection {
+  width: 45%;
+}
+
+.outputText {
+  font-size: 1rem;
+  color: #888;
+  text-align: left;
+}
+
+/* Buttons */
+.buttonContainer {
+  margin-top: 20px;
+}
+
+.translateButton {
+  background-color: #ff6225;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  margin: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.translateButton:hover {
+  background-color: #e04d1a;
+}
+
+/* Audio Player */
+.audioPlayer {
+  margin-top: 10px;
+}
 
 
 
