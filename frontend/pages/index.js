@@ -19,6 +19,9 @@ export default function Home() {
               </ul>
           </nav>
 
+          {/* navigation finish */}
+
+
           <div className={styles.hero}>
               {/* Large Yellow Circle */}
               <div className={styles.bigYellowCircle}></div>
@@ -121,24 +124,92 @@ export default function Home() {
           </section>
 
 
-          {/* About Us */}
           <section className={styles.aboutUs}>
-              <h2>About Us</h2>
-              <p>At Fluention, we believe that everyone deserves to be heard and understood...</p>
-              <button className="button">Learn More</button>
+              <h2 className={styles.aboutTitle}>About Us</h2>
+              <div className={styles.underline}></div>
+
+              {/* White Rectangle to Cover Middle Border */}
+              <div className={styles.whiteCover}></div>
+
+              {/* Profile Images (They should overlap) */}
+              <div className={styles.profileImages}>
+                  <div className={styles.profileWrapper}>
+                      <Image src="/민지인.png" alt="Team Member 1" width={80} height={80}/>
+                  </div>
+                  <div className={styles.profileWrapper}>
+                      <Image src="/민지휘.JPG" alt="Team Member 2" width={80} height={80}/>
+                  </div>
+                  <div className={styles.profileWrapper}>
+                      <Image src="/백낙준.jpeg" alt="Team Member 3" width={80} height={80}/>
+                  </div>
+                  <div className={styles.profileWrapper}>
+                      <Image src="/전윤제.jpeg" alt="Team Member 4" width={80} height={80}/>
+                  </div>
+              </div>
+
+              {/* About Us Description */}
+              <div className={styles.aboutContent}>
+                  <p>
+                      At Fluention, we believe that everyone deserves to be heard and understood. Inspired
+                      by personal experiences with loved ones who have developmental and speech disorders, we saw
+                      firsthand the frustration of being unable to express thoughts clearly.
+                  </p>
+                  <p>
+                      While communication challenges can be isolating, the right tools can bridge the gap.
+                      That’s why we built Fluention—an AI-powered platform designed to assist with speech therapy
+                      and translate language disorders into clear, understandable communication.
+                  </p>
+                  <p>
+                      Using neuroscience-backed methods and cutting-edge AI, we help individuals train, improve,
+                      and express themselves with confidence.
+                  </p>
+              </div>
+
+              {/* Learn More Button */}
+              <button className={styles.learnMoreBtn}>Learn More</button>
           </section>
 
-          {/* Footer */}
+
+
+
+          {/* footer begin */}
           <footer className={styles.footer}>
-              <Image src="/logo.png" alt="Fluention Logo" width={170} height={170}/>
-              <div className={styles.footerLinks}>
-                  <Link href="/explanation">What is Language Disorder?</Link>
-                  <Link href="/translator">Translator</Link>
-                  <Link href="/speechassistant">Speech Assistant</Link>
-                  <Link href="/about">About Us</Link>
+              {/* Logo */}
+              <div className={styles.footerLogo}>
+                  <Image src="/logo.png" alt="Fluention Logo" width={130} height={50}/>
               </div>
-              <p>© 2025 Fluention. All Rights Reserved.</p>
+
+              {/* Footer Links */}
+              <div className={styles.footerLinks}>
+                  <div className={styles.footerColumn}>
+                      <h4>What is Language Disorder?</h4>
+                      <h4>Speech Assistant</h4>
+                      <ul>
+                          <li>Oral & Breath Control Training</li>
+                          <li>Receptive & Expressive Language Development</li>
+                          <li>Vocabulary Enhancement</li>
+                          <li>Contextual Communication Skills</li>
+                      </ul>
+                  </div>
+
+                  <div className={styles.footerColumn}>
+                      <h4><Link href="/translator">Translator</Link></h4>
+                      <h4><Link href="/about">About Us</Link></h4>
+                  </div>
+
+                  <div className={styles.footerColumn}>
+                      <h4>Privacy Policy</h4>
+                      <h4>Terms of Service</h4>
+                      <h4>Resources & Legal Help</h4>
+                  </div>
+              </div>
+
+              {/* Copyright */}
+              <div className={styles.footerCopyright}>
+                  <p>© 2025 Fluention. All Rights Reserved.</p>
+              </div>
           </footer>
+
       </div>
   );
 }
