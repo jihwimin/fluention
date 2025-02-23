@@ -1,87 +1,57 @@
+/* header start */
+
 .container {
   text-align: center;
-  background-color: #f7f9fc;
-  padding: 20px;
-  border-radius: 10px;
-  width: 400px;
-  margin: 50px auto;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 20px 17px 30px; /* top right bottom left */
+  height: 30px; /* Set fixed height */
+  background-color: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); /* Drop Shadow */
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
 }
 
-.wordContainer {
-  margin: 20px 0;
-  padding: 15px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+.navLinks a {
+  font-size: 1rem; /* Increase from 1rem to 1.2rem */
+  white-space: nowrap;
+  text-decoration: none;
+  font-weight: normal;
+  color: black;
 }
 
-.word {
-  font-size: 28px;
-  font-weight: bold;
-  color: #ff5a5f;
+
+.navLinks {
+  list-style: none;
+  display: flex;
+  flex: 1;  /* Make sure items spread evenly */
+  justify-content: space-evenly; /* Spread items evenly */
+  align-items: center;
+  font-size: 1rem;
 }
 
-.playButton {
-  margin-top: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 5px;
+.auth a {
+  white-space: nowrap;
+  text-decoration: none; /* Removes underline */
+  font-weight: normal; /* Removes boldness */
+  color: black; /* Matches other links */
 }
 
-.playButton:hover {
-  background-color: #0056b3;
+.auth {
+  margin-left: 50px; /* Keeps spacing */
+  padding-right: -30px;
 }
 
-.recordButton {
-  margin-top: 20px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 12px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
+
+.navLinks li {
+  font-size: 1rem;
 }
 
-.recordButton:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.feedbackBox {
-  margin-top: 15px;
-  font-size: 18px;
-  font-weight: bold;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.correct {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.incorrect {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
-.userSpeech {
-  font-size: 16px;
-  margin-top: 15px;
-}
-
-.audioContainer {
-  margin-top: 15px;
-}
+/* header finish */

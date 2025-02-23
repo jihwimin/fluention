@@ -1,24 +1,25 @@
 import { useState } from "react";
 import axios from "axios";
 import styles from "../styles/secondstep.module.css";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function SecondStep() {
   const [imageUrl, setImageUrl] = useState("");
-  const [scenario, setScenario] = useState(""); // Store scenario internally
+  const [scenario, setScenario] = useState("");
   const [text, setText] = useState("");
   const [correctedText, setCorrectedText] = useState("");
   const [score, setScore] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false); // ✅ Tracks if TTS is playing
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
-  // Fetch AI-generated image & store scenario internally
   const fetchImage = async () => {
     try {
       setLoading(true);
       const response = await axios.get("http://localhost:8000/secondstep/generate-image/");
       setImageUrl(response.data.image_url);
-      setScenario(response.data.scenario_prompt); // Store scenario for AI comparison
+      setScenario(response.data.scenario_prompt);
     } catch (error) {
       console.error("Error fetching image:", error);
     } finally {
@@ -26,10 +27,9 @@ export default function SecondStep() {
     }
   };
 
-  // Start voice recording
   const startRecording = () => {
     if (!scenario) {
-      alert("Please generate an image first!"); // Prevent recording before image generation
+      alert("Please generate an image first!");
       return;
     }
 
@@ -58,46 +58,38 @@ export default function SecondStep() {
     };
   };
 
-  // Speak out the AI-corrected response using Text-to-Speech
   const speakText = (text) => {
     if ("speechSynthesis" in window) {
-      stopSpeaking(); // Stop any previous speech before speaking again
-
+      stopSpeaking();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "en-US"; // Set language
-      utterance.rate = 1; // Normal speaking rate
-
+      utterance.lang = "en-US";
+      utterance.rate = 1;
       utterance.onstart = () => setIsSpeaking(true);
       utterance.onend = () => setIsSpeaking(false);
       utterance.onerror = () => setIsSpeaking(false);
-
       speechSynthesis.speak(utterance);
     } else {
       alert("Text-to-Speech is not supported in your browser.");
     }
   };
 
-  // Stop the current AI speech
   const stopSpeaking = () => {
     if (isSpeaking) {
-      speechSynthesis.cancel(); // ✅ Stop the current speech
+      speechSynthesis.cancel();
       setIsSpeaking(false);
     }
   };
 
-  // Send speech text to backend (with stored scenario)
   const sendSpeechToBackend = async (speechText) => {
     try {
       const response = await axios.post("http://localhost:8000/secondstep/process-text/", {
         text: speechText,
-        scenario_prompt: scenario, // Include scenario for AI comparison
+        scenario_prompt: scenario,
       });
 
       if (response.data) {
         setCorrectedText(response.data.corrected || "No correction available.");
         setScore(response.data.score !== undefined ? response.data.score : "N/A");
-
-        // Speak the corrected text automatically
         speakText(response.data.corrected);
       }
     } catch (error) {
@@ -106,39 +98,92 @@ export default function SecondStep() {
   };
 
   return (
-    <div className={styles.secondstepContainer}>
-      <h1>AI Voice Assistant</h1>
-
-      {/* Fetch AI-generated image */}
-      <button className={styles.button} onClick={fetchImage} disabled={loading}>
-        {loading ? "Generating..." : "Get AI Image"}
-      </button>
-
-      {/* Display AI-generated image */}
-      {imageUrl && (
-        <div className={styles.imageContainer}>
-          <img className={styles.image} src={imageUrl} alt="Practice Scenario" />
+    <div className={styles.container}>
+      {/* Navigation Bar */}
+      <nav className={styles.navbar}>
+        <div className={styles.logo}>
+          <Image src="/logo.png" alt="Fluention Logo" width={170} height={170}/>
         </div>
-      )}
+        <ul className={styles.navLinks}>
+          <li><Link href="/explanation">What is Language Disorder?</Link></li>
+          <li><Link href="/speechassistant">Speech Assistant</Link></li>
+          <li><Link href="/translator">Translator</Link></li>
+          <li><Link href="/about">About Us</Link></li>
+          <li className={styles.auth}><Link href="/login">Login / Sign Up</Link></li>
+        </ul>
+      </nav>
+      {/* navigation finish */}
 
-      {/* Start Recording */}
-      <button className={styles.button} onClick={startRecording} disabled={isRecording}>
-        {isRecording ? "Listening..." : "Press to Speak 🎤"}
-      </button>
+      {/* White Fixed Container */}
+      <div className={styles.fixedContainer}>
+        <h2 className={styles.title}>Receptive & Expressive Language Development</h2>
 
-      {/* Display User Input & AI Feedback */}
-      {text && (
-        <div className={styles.resultContainer}>
-          <p><strong>Your Description:</strong> {text}</p>
-          <p><strong>AI Corrected:</strong> {correctedText}</p>
+        {/* Generate Image Button */}
+        <button className={styles.button} onClick={fetchImage} disabled={loading}>
+          {loading ? "Generating..." : "Generate Image"}
+        </button>
 
-          {/* Speak & Stop Buttons */}
-          <button className={styles.button} onClick={() => speakText(correctedText)}>🔊 Replay</button>
-          <button className={styles.button} onClick={stopSpeaking} disabled={!isSpeaking}>⏹ Stop</button>
+        {/* Display AI-generated image */}
+        {imageUrl && (
+          <div className={styles.imageContainer}>
+            <img className={styles.image} src={imageUrl} alt="Practice Scenario" />
+          </div>
+        )}
 
-          <p><strong>Score:</strong> {score}/100</p>
-        </div>
-      )}
+        {/* Start Recording Button */}
+        <button className={styles.button} onClick={startRecording} disabled={isRecording}>
+          {isRecording ? "Listening..." : "Press to Speak 🎤"}
+        </button>
+
+        {/* Display User Input & AI Feedback */}
+        {text && (
+          <div className={styles.resultContainer}>
+            <p><strong>Your Description:</strong> {text}</p>
+            <p><strong>AI Corrected:</strong> {correctedText}</p>
+            <button className={styles.button} onClick={() => speakText(correctedText)}>🔊 Replay</button>
+            <button className={styles.button} onClick={stopSpeaking} disabled={!isSpeaking}>⏹ Stop</button>
+            <p><strong>Score:</strong> {score}/100</p>
+          </div>
+        )}
+      </div>
+
+      {/* footer begin */}
+      <footer className={styles.footer}>
+              {/* Logo */}
+              <div className={styles.footerLogo}>
+                  <Image src="/logo.png" alt="Fluention Logo" width={130} height={50}/>
+              </div>
+
+              {/* Footer Links */}
+              <div className={styles.footerLinks}>
+                  <div className={styles.footerColumn}>
+                      <h4>What is Language Disorder?</h4>
+                      <h4>Speech Assistant</h4>
+                      <ul>
+                          <li>Oral & Breath Control Training</li>
+                          <li>Receptive & Expressive Language Development</li>
+                          <li>Vocabulary Enhancement</li>
+                          <li>Contextual Communication Skills</li>
+                      </ul>
+                  </div>
+
+                  <div className={styles.footerColumn}>
+                      <h4><Link href="/translator">Translator</Link></h4>
+                      <h4><Link href="/about">About Us</Link></h4>
+                  </div>
+
+                  <div className={styles.footerColumn}>
+                      <h4>Privacy Policy</h4>
+                      <h4>Terms of Service</h4>
+                      <h4>Resources & Legal Help</h4>
+                  </div>
+              </div>
+
+              {/* Copyright */}
+              <div className={styles.footerCopyright}>
+                  <p>© 2025 Fluention. All Rights Reserved.</p>
+              </div>
+          </footer>
     </div>
   );
 }
