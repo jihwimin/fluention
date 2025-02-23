@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lip Exercise</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        .video-container {
+            position: relative;
+            display: inline-block;
+        }
+        .example-video {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 200px;
+            height: 100px;
+            border: 3px solid #333;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            background-color: white;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: green;
+            border-radius: 10px;
+        }
+        .hold-message {
+            font-size: 20px;
+            font-weight: bold;
+            color: #d9534f;
+            margin-bottom: 10px;
+            display: none;
+        }
+    </style>
+    <script>
+        function updateProgressBar(progress, holding) {
+            document.getElementById('progress').style.width = progress + "%";
+            document.getElementById('hold-message').style.display = holding ? "block" : "none";
+        }
+
+        function fetchProgress() {
+            fetch("/progress")
+                .then(response => response.json())
+                .then(data => {
+                    updateProgressBar(data.progress, data.holding);
+                    setTimeout(fetchProgress, 100); // Update every 100ms
+                });
+        }
+
+        window.onload = fetchProgress;
+    </script>
+</head>
+<body>
+    <h1>{{ exercise_text }}</h1>
+
+    <div id="hold-message" class="hold-message">Hold for 2 seconds</div>
+
+    
+
+    <div class="video-container">
+        <img src="{{ url_for('video_feed') }}" width="640" height="480">
+        <video class="example-video" controls autoplay loop muted>
+            <source src="{{ example_video }}" type="video/mp4">
+        </video>
+    </div>
+</body>
+</html>

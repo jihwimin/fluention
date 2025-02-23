@@ -8,7 +8,9 @@ export default function Home() {
           {/* Navigation Bar */}
           <nav className={styles.navbar}>
               <div className={styles.logo}>
-                  <Image src="/logo.png" alt="Fluention Logo" width={170} height={170}/>
+                    <Link href="/">
+                        <Image src="/logo.png" alt="Fluention Logo" width={170} height={170} />
+                    </Link>
               </div>
               <ul className={styles.navLinks}>
                   <li><Link href="/explanation">What is Language Disorder?</Link></li>
@@ -103,7 +105,13 @@ export default function Home() {
                           on dysarthria rehabilitation. Train your pronunciation, articulation, and speech clarity
                           with a structured, science-backed approach—anytime, anywhere
                       </p>
+<<<<<<< HEAD
                       <button className={`${styles.learnMoreBtn} ${styles.learnMoreLeft}`}>Learn More</button>
+=======
+                      <Link href="/speechassistant">
+                          <button className={`${styles.learnMoreBtn} ${styles.learnMoreLeft}`}>Learn More</button>
+                      </Link>
+>>>>>>> e0f6d2898e596e0a1af72fe1cfe32254b38736f6
                   </div>
 
                   {/* Right Service Box (Moves Down) */}
@@ -117,7 +125,13 @@ export default function Home() {
                           sentences, and complex texts into structured, understandable language, our AI bridges the
                           gap between thought and communication.
                       </p>
+<<<<<<< HEAD
                       <button className={`${styles.learnMoreBtn} ${styles.learnMoreRight}`}>Learn More</button>
+=======
+                      <Link href="/translator">
+                          <button className={`${styles.learnMoreBtn} ${styles.learnMoreRight}`}>Learn More</button>
+                      </Link>
+>>>>>>> e0f6d2898e596e0a1af72fe1cfe32254b38736f6
                   </div>
               </div>
 

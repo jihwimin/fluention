@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        .video-container {
+            position: relative;
+            display: inline-block;
+        }
+        .example-video {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 200px;
+            height: 100px;
+            border: 3px solid #333;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ exercise_text }}</h1>
+    
+    <div class="video-container">
+        <!-- Fix: Pass exercise_index to video_feed -->
+        <img src="{{ url_for('video_feed', exercise_index=exercise_index) }}" width="640" height="480">
+
+        <video class="example-video" controls autoplay loop muted>
+            <source src="{{ url_for('static', filename=example_video) }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</body>
+</html>
