@@ -1,8 +1,7 @@
-from fastapi import APIRouter, Query, HTTPException
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from .grammar_analysis import analyze_sentence
 from .text_to_speech import synthesize_speech
-from .voice_processing import process_voice_input
 import random
 
 router = APIRouter()
@@ -19,7 +18,7 @@ async def voice_chat(data: VoiceChatRequest):
     """
     try:
         # ✅ Analyze and correct user's input
-        corrected_text = analyze_sentence(data.text)
+        corrected_text = analyze_sentence(data.text, "conversation")
 
         # ✅ AI dynamic responses to keep conversation engaging
         ai_responses = [
@@ -34,8 +33,8 @@ async def voice_chat(data: VoiceChatRequest):
 
         return {
             "ai_response": ai_response,
-            "corrected_text": corrected_text["corrected"],  # ✅ Ensure correct format
-            "score": corrected_text["score"]  # ✅ Include score for feedback
+            "corrected_text": corrected_text["corrected"],
+            "score": corrected_text["score"]
         }
 
     except Exception as e:
@@ -44,11 +43,9 @@ async def voice_chat(data: VoiceChatRequest):
 
 # ✅ Text-to-Speech API (Converts AI response into speech)
 @router.get("/text-to-speech/")
-async def text_to_speech(
-    text: str, gender: str = Query("female"), age: str = Query("child")
-):
+async def text_to_speech(text: str, gender: str = "female", age: str = "child"):
     """
-    Converts AI-generated text to speech using Fish Audio API.
+    Converts AI-generated text to speech using gTTS.
     """
     try:
         audio_url = synthesize_speech(text, gender, age)
@@ -60,7 +57,8 @@ async def text_to_speech(
 # ✅ Define structure for processing user voice input
 class VoiceInput(BaseModel):
     text: str  # User's speech converted to text
-    voice: str  # Selected voice type (e.g., "female-child", "male-adult")
+    gender: str  # "male" or "female"
+    age: str  # "child" or "adult"
 
 @router.post("/process-voice/")
 async def process_voice(request: VoiceInput):
@@ -68,13 +66,17 @@ async def process_voice(request: VoiceInput):
     Processes the user's voice input and returns an AI-generated response.
     """
     try:
-        # ✅ Process user voice input with AI
-        ai_response, audio_url = process_voice_input(request.text, request.voice)
+        # ✅ Correct sentence and generate AI feedback
+        corrected_text = analyze_sentence(request.text, "general conversation")
+        ai_response = f"Great job! {corrected_text['corrected']} Keep going!"
+
+        # ✅ Generate AI speech using gTTS
+        audio_url = synthesize_speech(ai_response, request.gender, request.age)
 
         return {
             "reply": ai_response,
-            "audio_url": audio_url,  # ✅ Return AI-generated speech
+            "audio_url": audio_url,
+            "score": corrected_text["score"],
         }
-
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Voice processing error: {e}")

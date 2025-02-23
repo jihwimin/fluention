@@ -65,31 +65,49 @@ export default function FourthStep() {
     };
 
     // Send speech text to the backend for processing
+    // Send text to backend for processing
     const sendSpeechToBackend = async (speechText) => {
-        try {
-            const [gender, age] = selectedVoice.split("-");
-            const response = await axios.post("http://localhost:8000/fourthstep/process-voice/", {
-                text: speechText,
-                gender: gender,
-                age: age,
-            });
-
-            if (response.data && response.data.audio_url) {
-                setAudioUrl(response.data.audio_url);
-                playAudio(response.data.audio_url); // Play the audio once it's ready
-            } else {
-                console.error("No audio URL received from backend.");
-            }
-        } catch (error) {
-            console.error("Error sending speech to backend:", error);
-        }
-    };
-
+      try {
+          const [gender, age] = selectedVoice.split("-"); // Ensure correct format
+  
+          const requestBody = {
+              text: speechText.trim(), // ✅ Remove extra spaces
+              gender: gender.toLowerCase(), // ✅ Ensure correct lowercase format
+              age: age.toLowerCase(), // ✅ Ensure correct lowercase format
+          };
+  
+          console.log("Sending request:", requestBody); // Debugging: Log request
+  
+          const response = await axios.post("http://localhost:8000/fourthstep/process-voice/", requestBody, {
+              headers: { "Content-Type": "application/json" },
+          });
+  
+          if (response.data) {
+              setMessages((prevMessages) => [...prevMessages, { sender: "ai", text: response.data.reply }]);
+  
+              // Play the AI-generated speech
+              if (response.data.audio_url) {
+                  const audio = new Audio(response.data.audio_url);
+                  audio.play();
+              }
+          }
+      } catch (error) {
+          console.error("Error processing speech:", error.response?.data || error.message);
+      }
+  };
     // Play the generated audio
-    const playAudio = (audioUrl) => {
-        const audio = new Audio(audioUrl);
-        audio.play();
-    };
+    // ✅ Play the generated audio
+const playAudio = (audioUrl) => {
+  if (!audioUrl) {
+      console.error("No audio URL provided!");
+      return;
+  }
+
+  const audio = new Audio(audioUrl);
+  audio.play()
+      .then(() => console.log("Playing audio..."))
+      .catch((error) => console.error("Error playing audio:", error));
+};
 
     // Handle voice selection change
     const handleVoiceChange = (e) => {
