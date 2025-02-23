@@ -63,8 +63,10 @@ export default function Home() {
           {/* Problem & Solution Sections */}
           <section className={styles.problem}>
               <h2>Problem</h2>
-              <p>Many individuals with autism, neurodivergent conditions, or speech disorders struggle with
-                  pronunciation, sentence formation, and comprehension...</p>
+              <p>Many individuals with autism, neurodivergent conditions, or speech disorders (such as dysarthria, aphasia, or apraxia of speech)
+                  struggle with pronunciation, sentence formation, and comprehension. Despite advancements in AI, there is no comprehensive tool
+                  that both enhances speech clarity and simplifies complex information for better understanding. This makes communication and
+                  learning challenging for many.</p>
           </section>
 
           <section className={styles.solution}>

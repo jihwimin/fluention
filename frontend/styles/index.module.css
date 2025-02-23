@@ -210,24 +210,35 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-.about {
-  padding: 40px;
-}
-
 .problem {
-  background-color: #FF6225;
-  padding: 40px;
+  background: linear-gradient(to bottom, #FF9525 50%, rgba(255, 149, 37, 0) 100%);
+  min-height: 1000px; /* Ensures enough space */
+  padding: 100px 180px; /* Reduce top padding */ /* top left */
   color: white;
+  text-align: left;
+  font-weight: normal;
+  font-size: 2.3rem;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Move content upwards */
 }
+.problem p {
+  color: white; /* Explicitly set paragraph text to white */
+  font-size:1.5rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 .solution {
   padding: 40px;
