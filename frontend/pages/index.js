@@ -63,33 +63,63 @@ export default function Home() {
           {/* Problem & Solution Sections */}
           <section className={styles.problem}>
               <h2>Problem</h2>
-              <p>Many individuals with autism, neurodivergent conditions, or speech disorders (such as dysarthria, aphasia, or apraxia of speech)
-                  struggle with pronunciation, sentence formation, and comprehension. Despite advancements in AI, there is no comprehensive tool
-                  that both enhances speech clarity and simplifies complex information for better understanding. This makes communication and
+              <p>Many individuals with autism, neurodivergent conditions, or speech disorders (such as dysarthria,
+                  aphasia, or apraxia of speech)
+                  struggle with pronunciation, sentence formation, and comprehension. Despite advancements in AI, there
+                  is no comprehensive tool
+                  that both enhances speech clarity and simplifies complex information for better understanding. This
+                  makes communication and
                   learning challenging for many.</p>
           </section>
 
-          <section className={styles.solution}>
-              <h2>Solution</h2>
-              <p>Our AI-driven platform helps you pronounce better, understand faster, and communicate effortlessly—all
-                  with personalized support.</p>
+          <section className={styles.solutionSection}>
+              <h2 className={styles.solutionTitle}>Solution</h2>
+              <p className={styles.solutionDescription}>
+                  Our AI-driven platform helps you pronounce better, understand faster, and communicate effortlessly—
+                  all with personalized support.
+              </p>
+
+              {/* Large Background Numbers */}
+              <div className={`${styles.bigNumber} ${styles.number1}`}>1</div>
+              <div className={`${styles.bigNumber} ${styles.number2}`}>2</div>
+
+              {/* Circles */}
+              <div className={`${styles.circle} ${styles.yellowCircle}`}></div>
+              <div className={`${styles.circle} ${styles.orangeCircle}`}></div>
+
+              {/* AI Services */}
+              <div className={styles.services}>
+                  {/* Left Service Box (Moves Up) */}
+                  <div className={`${styles.serviceBox} ${styles.serviceBoxLeft}`}>
+                      <h3 className={`${styles.serviceTitle} ${styles.serviceTitleLeft}`}>
+                          AI Speech Language Pathologist Assistant
+                      </h3>
+                      <p>
+                          Fluention’s AI-powered speech therapy is inspired by speech and rehabilitation programs
+                          from top university hospitals and integrates clinically validated neuroscience research
+                          on dysarthria rehabilitation. Train your pronunciation, articulation, and speech clarity
+                          with a structured, science-backed approach—anytime, anywhere
+                      </p>
+                      <button className={`${styles.learnMoreBtn} ${styles.learnMoreLeft}`}>Learn More</button>
+                  </div>
+
+                  {/* Right Service Box (Moves Down) */}
+                  <div className={`${styles.serviceBox} ${styles.serviceBoxRight}`}>
+                      <h3 className={`${styles.serviceTitle} ${styles.serviceTitleRight}`}>
+                          AI-Powered Language Disorder Translator
+                      </h3>
+                      <p>
+                          Fluention’s AI-powered Language Disorder Translator helps individuals with speech and
+                          language impairments express themselves clearly. By translating unclear speech, fragmented
+                          sentences, and complex texts into structured, understandable language, our AI bridges the
+                          gap between thought and communication.
+                      </p>
+                      <button className={`${styles.learnMoreBtn} ${styles.learnMoreRight}`}>Learn More</button>
+                  </div>
+              </div>
+
           </section>
 
-          {/* AI Services */}
-          <section className={styles.services}>
-              <div className={styles.serviceBox}>
-                  <h3>AI Speech Language Pathologist Assistant</h3>
-                  <p>Fluention’s AI-powered speech therapy is inspired by speech and rehabilitation programs from top
-                      university hospitals...</p>
-                  <button className="button">Learn More</button>
-              </div>
-              <div className={styles.serviceBox}>
-                  <h3>AI-Powered Language Disorder Translator</h3>
-                  <p>Fluention’s AI-powered Language Disorder Translator helps individuals with speech and language
-                      impairments express themselves clearly...</p>
-                  <button className="button">Learn More</button>
-              </div>
-          </section>
 
           {/* About Us */}
           <section className={styles.aboutUs}>
@@ -112,3 +142,5 @@ export default function Home() {
       </div>
   );
 }
+
+
