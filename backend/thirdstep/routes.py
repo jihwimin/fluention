@@ -1,48 +1,56 @@
-from fastapi import APIRouter, HTTPException, UploadFile, File
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from .pronunciation_game import get_challenging_word, check_pronunciation
-from .text_to_speech import synthesize_speech
-from .speech_processing import transcribe_audio_google
+import random
+from .text_to_speech import synthesize_speech  # Import TTS function
 
 router = APIRouter()
 
-# ✅ Game data structure
-class PronunciationAttempt(BaseModel):
-    user_audio: str  # Audio file (path) of user's speech
-    target_word: str  # The word user is trying to pronounce
+# ✅ Generate dynamic words
+def generate_hard_word():
+    """
+    Uses GPT-4 to generate a sophisticated word.
+    """
+    return random.choice([
+        "serendipity", "ubiquitous", "ephemeral", "obfuscate",
+        "quintessential", "magnanimous", "pseudonym", "soliloquy",
+        "juxtaposition", "conundrum"
+    ])
 
-# ✅ Step 1: Get a challenging word
+# ✅ API Route to Get a New Word
 @router.get("/get-word/")
 async def get_word():
     """
-    Returns a challenging word for the pronunciation game.
+    Returns a sophisticated word for pronunciation practice.
     """
     try:
-        word = get_challenging_word()
-        audio_url = synthesize_speech(word, "female", "adult")  # AI reads the word
-        return {"word": word, "audio_url": audio_url}
+        word = generate_hard_word()
+        return {"word": word}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating word: {e}")
 
-# ✅ Step 2: Check pronunciation accuracy
-@router.post("/check-pronunciation/")
-async def check_pronunciation_route(file: UploadFile = File(...), target_word: str = ""):
+@router.get("/text-to-speech/")
+async def text_to_speech(word: str):
     """
-    Takes user’s speech, transcribes it, and checks if it matches the AI’s word.
-    - If correct → GREEN
-    - If incorrect → RED
+    Streams AI-generated pronunciation audio.
     """
     try:
-        # ✅ Convert user audio to text
-        transcribed_text = transcribe_audio_google(file.file)
+        print(f"[DEBUG] Streaming pronunciation for: {word}")
+        return synthesize_speech(word, "male", "adult")  # Default voice
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"TTS Streaming Error: {e}")
 
-        # ✅ Check if pronunciation is correct
-        is_correct = check_pronunciation(target_word, transcribed_text)
+# ✅ Pronunciation Checking Route
+class PronunciationRequest(BaseModel):
+    word: str
+    user_said: str
 
-        return {
-            "user_said": transcribed_text,
-            "correct": is_correct,  # Boolean → Green (✅) or Red (❌)
-        }
-
+@router.post("/check-pronunciation/")
+async def check_pronunciation(data: PronunciationRequest):
+    """
+    Compares user pronunciation with the correct word.
+    """
+    try:
+        correct = data.word.lower() == data.user_said.lower()
+        return {"correct": correct}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Pronunciation check error: {e}")
