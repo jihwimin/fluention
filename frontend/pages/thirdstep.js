@@ -1,43 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "../styles/thirdstep.module.css";
-<<<<<<< HEAD
-=======
 import Image from "next/image";
 import Link from "next/link";
->>>>>>> e0f6d2898e596e0a1af72fe1cfe32254b38736f6
 
 export default function ThirdStep() {
     const [currentWord, setCurrentWord] = useState("");
     const [userSpeech, setUserSpeech] = useState("");
-<<<<<<< HEAD
-    const [feedback, setFeedback] = useState("");
-    const [isRecording, setIsRecording] = useState(false);
-    const [audioUrl, setAudioUrl] = useState("");
-
-    const playAudio = (audioUrl) => {
-      if (!audioUrl) {
-          console.error("[ERROR] No valid audio URL to play.");
-          return;
-      }
-  
-      const audio = new Audio(audioUrl);
-      audio.play()
-          .then(() => console.log("[DEBUG] Streaming audio is playing:", audioUrl))
-          .catch((error) => console.error("[ERROR] Failed to play streamed audio:", error));
-  };
-  
-  
-
-    // Fetch a challenging word from the backend
-    const fetchWord = async () => {
-        try {
-            const response = await axios.get("http://localhost:8000/thirdstep/get-word/");
-            setCurrentWord(response.data.word);
-            setFeedback(""); // Reset feedback for a new round
-            setUserSpeech(""); // Clear previous user input
-            setAudioUrl(""); // Reset audio
-=======
     const [isRecording, setIsRecording] = useState(false);
     const [audioUrl, setAudioUrl] = useState("");
     const [containerColor, setContainerColor] = useState(styles.fixedContainer); // Default white container
@@ -62,7 +31,6 @@ export default function ThirdStep() {
             setAudioUrl(""); 
             const response = await axios.get("http://localhost:8000/thirdstep/get-word/");
             setCurrentWord(response.data.word);
->>>>>>> e0f6d2898e596e0a1af72fe1cfe32254b38736f6
         } catch (error) {
             console.error("Error fetching word:", error);
         }
@@ -70,31 +38,6 @@ export default function ThirdStep() {
 
     // Play TTS pronunciation for the word
     const playWordPronunciation = async () => {
-<<<<<<< HEAD
-      if (!currentWord) return;
-  
-      try {
-          const response = await axios.get(`http://localhost:8000/thirdstep/text-to-speech/?word=${currentWord}`, {
-              responseType: "blob", // ✅ Receive binary audio data
-          });
-  
-          console.log("[DEBUG] Received audio stream");
-  
-          // ✅ Create an audio URL from the response blob
-          const audioUrl = URL.createObjectURL(response.data);
-          setAudioUrl(audioUrl);
-  
-          // ✅ Play streamed audio immediately
-          playAudio(audioUrl);
-      } catch (error) {
-          console.error("[ERROR] Error generating TTS:", error);
-      }
-  };
-  
-
-
-    // Start voice recording and speech recognition
-=======
         if (!currentWord) return;
 
         try {
@@ -112,7 +55,6 @@ export default function ThirdStep() {
     };
 
     // Start voice recording
->>>>>>> e0f6d2898e596e0a1af72fe1cfe32254b38736f6
     const startRecording = () => {
         if (!currentWord) {
             alert("Get a word first!");
@@ -144,11 +86,7 @@ export default function ThirdStep() {
         };
     };
 
-<<<<<<< HEAD
-    // Send user's speech to backend for pronunciation check
-=======
     // Check user's pronunciation
->>>>>>> e0f6d2898e596e0a1af72fe1cfe32254b38736f6
     const checkPronunciation = async (spokenWord) => {
         try {
             const response = await axios.post("http://localhost:8000/thirdstep/check-pronunciation/", {
@@ -157,20 +95,11 @@ export default function ThirdStep() {
             });
 
             if (response.data.correct) {
-<<<<<<< HEAD
-                setFeedback("✅ Correct!");
-            } else {
-                setFeedback("❌ Incorrect!");
-            }
-
-            // Fetch a new word after 2 seconds
-=======
                 setContainerColor(styles.correctContainer); // Turns green if correct
             } else {
                 setContainerColor(styles.incorrectContainer); // Turns red if incorrect
             }
 
->>>>>>> e0f6d2898e596e0a1af72fe1cfe32254b38736f6
             setTimeout(fetchWord, 2000);
         } catch (error) {
             console.error("Error checking pronunciation:", error);
@@ -178,46 +107,11 @@ export default function ThirdStep() {
     };
 
     useEffect(() => {
-<<<<<<< HEAD
-        fetchWord(); // Load a word when the component mounts
-=======
         fetchWord();
->>>>>>> e0f6d2898e596e0a1af72fe1cfe32254b38736f6
     }, []);
 
     return (
         <div className={styles.container}>
-<<<<<<< HEAD
-            <h1 className={styles.title}>Pronunciation Game</h1>
-
-            {/* Display current word */}
-            <div className={styles.wordContainer}>
-                <h2 className={styles.word}>{currentWord}</h2>
-                <button className={styles.playButton} onClick={playWordPronunciation}>
-                    🔊 Hear Pronunciation
-                </button>
-            </div>
-
-            {/* User Speech & Feedback */}
-            <div className={`${styles.feedbackBox} ${feedback === "✅ Correct!" ? styles.correct : styles.incorrect}`}>
-                {feedback && <p className={styles.feedback}>{feedback}</p>}
-            </div>
-
-            {/* Start Recording Button */}
-            <button className={styles.recordButton} onClick={startRecording} disabled={isRecording}>
-                {isRecording ? "🎤 Listening..." : "🎤 Press to Speak"}
-            </button>
-
-            {/* Show User Speech */}
-            {userSpeech && <p className={styles.userSpeech}>You said: <strong>{userSpeech}</strong></p>}
-
-            {/* Play AI Pronunciation Again */}
-            {audioUrl && (
-                <div className={styles.audioContainer}>
-                    <audio controls src={audioUrl} autoPlay />
-                </div>
-            )}
-=======
             {/* Navigation Bar */}
             <nav className={styles.navbar}>
                 <div className={styles.logo}>
@@ -305,7 +199,6 @@ export default function ThirdStep() {
                   <p>© 2025 Fluention. All Rights Reserved.</p>
               </div>
           </footer>
->>>>>>> e0f6d2898e596e0a1af72fe1cfe32254b38736f6
         </div>
     );
 }

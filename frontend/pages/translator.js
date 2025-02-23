@@ -17,7 +17,7 @@ export default function Translator() {
             <li><Link href="/explanation">What is Language Disorder?</Link></li>
             <li><Link href="/speechassistant">Speech Assistant</Link></li>
             <li><Link href="/translator">Translator</Link></li>
-            <li><Link href="/about">About Us</Link></li>
+            <li><Link href="/lipsync">Favorite Character Message</Link></li>
             <li className={styles.auth}><Link href="/login">Login / Sign Up</Link></li>
         </ul>
     </nav>

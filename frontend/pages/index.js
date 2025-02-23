@@ -16,12 +16,13 @@ export default function Home() {
                   <li><Link href="/explanation">What is Language Disorder?</Link></li>
                   <li><Link href="/speechassistant">Speech Assistant</Link></li>
                   <li><Link href="/translator">Translator</Link></li>
-                  <li><Link href="/about">About Us</Link></li>
+                  <li><Link href="/lipsync">Favorite Character Message</Link></li>
                   <li className={styles.auth}><Link href="/login">Login / Sign Up</Link></li>
               </ul>
           </nav>
 
           {/* navigation finish */}
+
 
 
           <div className={styles.hero}>
@@ -105,13 +106,9 @@ export default function Home() {
                           on dysarthria rehabilitation. Train your pronunciation, articulation, and speech clarity
                           with a structured, science-backed approach—anytime, anywhere
                       </p>
-<<<<<<< HEAD
-                      <button className={`${styles.learnMoreBtn} ${styles.learnMoreLeft}`}>Learn More</button>
-=======
                       <Link href="/speechassistant">
                           <button className={`${styles.learnMoreBtn} ${styles.learnMoreLeft}`}>Learn More</button>
                       </Link>
->>>>>>> e0f6d2898e596e0a1af72fe1cfe32254b38736f6
                   </div>
 
                   {/* Right Service Box (Moves Down) */}
@@ -125,13 +122,9 @@ export default function Home() {
                           sentences, and complex texts into structured, understandable language, our AI bridges the
                           gap between thought and communication.
                       </p>
-<<<<<<< HEAD
-                      <button className={`${styles.learnMoreBtn} ${styles.learnMoreRight}`}>Learn More</button>
-=======
                       <Link href="/translator">
                           <button className={`${styles.learnMoreBtn} ${styles.learnMoreRight}`}>Learn More</button>
                       </Link>
->>>>>>> e0f6d2898e596e0a1af72fe1cfe32254b38736f6
                   </div>
               </div>
 

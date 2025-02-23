@@ -2,92 +2,8 @@
 
 .container {
   text-align: center;
-  background-color: #f7f9fc;
-  padding: 20px;
-  border-radius: 10px;
-  width: 400px;
-  margin: 50px auto;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-<<<<<<< HEAD
-.title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-}
-
-.wordContainer {
-  margin: 20px 0;
-  padding: 15px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.word {
-  font-size: 28px;
-  font-weight: bold;
-  color: #ff5a5f;
-}
-
-.playButton {
-  margin-top: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.playButton:hover {
-  background-color: #0056b3;
-}
-
-.recordButton {
-  margin-top: 20px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 12px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.recordButton:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.feedbackBox {
-  margin-top: 15px;
-  font-size: 18px;
-  font-weight: bold;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.correct {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.incorrect {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
-.userSpeech {
-  font-size: 16px;
-  margin-top: 15px;
-}
-
-.audioContainer {
-  margin-top: 15px;
-=======
 .navbar {
   display: flex;
   align-items: center;
@@ -109,7 +25,6 @@
   text-decoration: none;
   font-weight: normal;
   color: black;
->>>>>>> e0f6d2898e596e0a1af72fe1cfe32254b38736f6
 }
 
 
