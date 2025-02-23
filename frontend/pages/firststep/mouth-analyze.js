@@ -1,8 +1,26 @@
-import styles from "../styles/firststep.module.css"; 
+import { useState } from "react";
+import styles from "../../styles/mouth-analyze.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function FirstStep() {
+export default function MouthAnalyze() {
+    const exercises = [
+        { text: "1st Exercise: Open Your Mouth", video: "/videos/mouth_wide.mp4" },
+        { text: "2nd Exercise: Say 'oooo'", video: "/videos/say_o.mp4" },
+        { text: "3rd Exercise: Say 'eeeee'", video: "/videos/say_e.mp4" }
+    ];
+
+    const [currentStep, setCurrentStep] = useState(0);
+
+    const nextExercise = () => {
+        if (currentStep < exercises.length - 1) {
+            setCurrentStep(currentStep + 1);
+        } else {
+            alert("All exercises completed! 🎉");
+            setCurrentStep(0); // Reset to first exercise if needed
+        }
+    };
+
     return (
         <div className={styles.container}>
             {/* Navigation Bar */}
@@ -22,29 +40,44 @@ export default function FirstStep() {
             {/* Page Title */}
             <h2 className={styles.title}>Oral & Breath Control Training</h2>
 
-            {/* Big Box Navigation */}
-            <div className={styles.boxContainer}>
-                <Link href="/firststep/mouth-analyze">
-                    <div className={styles.analysisBox}>
-                        <h3>Mouth Analyzer</h3>
-                        <p>Analyze your mouth movements for better speech.</p>
-                    </div>
-                </Link>
+            {/* ✅ Exercise Container */}
+            <div className={styles.exerciseContainer}>
+                <h3>{exercises[currentStep].text}</h3>
 
-                <Link href="/firststep/tongue-analyze">
-                    <div className={styles.analysisBox}>
-                        <h3>Tongue Analyzer</h3>
-                        <p>Track and improve your tongue movements.</p>
-                    </div>
-                </Link>
+                {/* ✅ Video Section */}
+                <video 
+                    key={currentStep}  /* Force re-render on state change */
+                    className={styles.video} 
+                    controls 
+                    autoPlay 
+                    loop
+                >
+                    <source src={exercises[currentStep].video} type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+
+                {/* ✅ Next Exercise Button */}
+                <button className={styles.nextButton} onClick={nextExercise}>
+                    Next Exercise ➡️
+                </button>
             </div>
 
-            {/* Footer */}
+            {/* Camera Feed */}
+            <div className={styles.cameraContainer}>
+                <h3 className={styles.cameraTitle}>Live Mouth Analysis</h3>
+                <div className={styles.cameraBox}>
+                    <img className={styles.videoFeed} src="http://127.0.0.1:5001/video_feed" alt="Live Mouth Analysis" />
+                </div>
+            </div>
+
+            {/* footer begin */}
             <footer className={styles.footer}>
+                {/* Logo */}
                 <div className={styles.footerLogo}>
                     <Image src="/logo.png" alt="Fluention Logo" width={130} height={50}/>
                 </div>
 
+                {/* Footer Links */}
                 <div className={styles.footerLinks}>
                     <div className={styles.footerColumn}>
                         <h4>What is Language Disorder?</h4>
@@ -69,6 +102,7 @@ export default function FirstStep() {
                     </div>
                 </div>
 
+                {/* Copyright */}
                 <div className={styles.footerCopyright}>
                     <p>© 2025 Fluention. All Rights Reserved.</p>
                 </div>
