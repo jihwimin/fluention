@@ -2,7 +2,7 @@ import os
 import difflib
 from openai import OpenAI
 from dotenv import load_dotenv
-from score_analysis import calculate_score
+from .score_analysis import calculate_score
 
 # Load environment variables
 load_dotenv()

@@ -1,8 +1,8 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from pydantic import BaseModel
-from grammar_analysis import correct_sentence, score_sentence
-from generate_image import generate_image
-from speech_processing import transcribe_audio_google
+from .grammar_analysis import correct_sentence, score_sentence
+from .generate_image import generate_image
+from .speech_processing import transcribe_audio_google
 
 router = APIRouter()
 

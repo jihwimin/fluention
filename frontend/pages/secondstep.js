@@ -16,7 +16,7 @@ export default function SecondStep() {
   const fetchImage = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:8000/generate-image/");
+      const response = await axios.get("http://localhost:8000/secondstep/generate-image/");
       setImageUrl(response.data.image_url);
       setScenario(response.data.scenario_prompt); // Store scenario for AI comparison
     } catch (error) {
@@ -88,7 +88,7 @@ export default function SecondStep() {
   // Send speech text to backend (with stored scenario)
   const sendSpeechToBackend = async (speechText) => {
     try {
-      const response = await axios.post("http://localhost:8000/process-text/", {
+      const response = await axios.post("http://localhost:8000/secondstep/process-text/", {
         text: speechText,
         scenario_prompt: scenario, // Include scenario for AI comparison
       });
