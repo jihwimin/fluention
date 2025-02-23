@@ -9,7 +9,9 @@ export default function Explanation() {
           {/* Navigation Bar */}
           <nav className={styles.navbar}>
               <div className={styles.logo}>
-                  <Image src="/logo.png" alt="Fluention Logo" width={170} height={170}/>
+                  <Link href="/">
+                      <Image src="/logo.png" alt="Fluention Logo" width={170} height={170} />
+                  </Link>
               </div>
               <ul className={styles.navLinks}>
                   <li><Link href="/explanation">What is Language Disorder?</Link></li>

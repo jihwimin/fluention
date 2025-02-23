@@ -20,17 +20,7 @@ export default function SpeechAssistant() {
               </ul>
           </nav>
 
-          {/* Large Yellow Circle */}
-          <div className={styles.bigYellowCircle}></div>
-          {/* Two Overlapping Circles */}
-          <div className={styles.yellowCircle}></div>
-          <div className={styles.orangeCircle}></div>
-          <div className={styles.whiteCover1}></div>
-          {/* White Cutout */}
-          <div className={styles.whiteCover2}></div>
-          {/* White Cutout */}
-
-
+          
           <section className={styles.speechAssistant}>
               <div className={styles.titleContainer}>
                   <div className={styles.titleContainer}>
