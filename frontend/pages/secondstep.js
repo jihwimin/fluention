@@ -121,15 +121,30 @@ export default function SecondStep() {
         <h2 className={styles.title}>Receptive & Expressive Language Development</h2>
 
         <div className={styles.buttonContainer}>
-          {/* Generate Image Button */}
-          <button className={styles.button} onClick={fetchImage} disabled={loading}>
-            {loading ? "Generating..." : "Generate Image"}
-          </button>
+            {/* Generate Image Button */}
+            <button 
+                className={`${styles.button} ${loading ? styles.blinking : ""}`} 
+                onClick={fetchImage} 
+                disabled={loading}
+            >
+                {loading ? "Generating..." : "Generate Image"}
+            </button>
 
-          {/* Start Recording Button */}
-          <button className={styles.button} onClick={startRecording} disabled={isRecording}>
-            {isRecording ? "Listening..." : "Press to Speak 🎤"}
-          </button>
+{/* Start Recording Button */}
+<button 
+    className={styles.recordButton} 
+    onClick={startRecording} 
+    disabled={isRecording}
+>
+    <Image 
+        src="/icons/mic.png" 
+        alt="Mic" 
+        width={50} 
+        height={50} 
+        className={isRecording ? styles.micBlink : ""}
+    />
+</button>
+
         </div>
 
         {/* Display AI-generated image */}
@@ -139,19 +154,25 @@ export default function SecondStep() {
           </div>
         )}
 
+
         {/* Display User Input & AI Feedback */}
         {text && (
-          <div className={styles.resultContainer}>
-            <p><strong>Your Description:</strong> {text}</p>
-            <p><strong>AI Corrected:</strong> {correctedText}</p>
-            {/* Replay & Stop Buttons */}
-            <div className={styles.replayStopContainer}>
-              <button className={styles.buttonReplay} onClick={() => speakText(correctedText)}>🔊 Replay</button>
-              <button className={styles.buttonStop} onClick={stopSpeaking} disabled={!isSpeaking}>⏹ Stop</button>
-            </div>
+            <div className={styles.resultContainer}>
+                <p><strong>Your Description:</strong> {text}</p>
+                <p><strong>AI Corrected:</strong> {correctedText}</p>
 
-            <p><strong>Score:</strong> {score}/100</p>
-          </div>
+                {/* Replay & Stop Buttons */}
+                <div className={styles.audioControls}>
+                    <button className={styles.audioButton} onClick={() => speakText(correctedText)}>
+                        <Image src="/icons/speaker.png" alt="Speaker" width={30} height={30} />
+                    </button>
+                    <button className={styles.stopButton} onClick={stopSpeaking} disabled={!isSpeaking}>
+                        <Image src="/icons/stop.png" alt="Pause" width={30} height={30} />
+                    </button>
+                </div>
+
+                <p><strong>Score:</strong> {score}/100</p>
+            </div>
         )}
       </div>
 

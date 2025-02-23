@@ -239,3 +239,69 @@
 .replayStopContainer {
   gap: 100px; /* Increase spacing */
 }
+/* Blinking Animation */
+.blinking {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* Mic Button (Transparent Background) */
+.recordButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.recordButton img {
+  background: none; /* Removes background */
+  border-radius: 50%; /* Keeps it circular */
+  padding: 5px; /* Ensures proper spacing */
+}
+
+/* Mic Blinking Effect */
+.micBlink {
+  animation: blink 1s infinite;
+  background: none !important; /* Ensures transparency */
+}
+/* Blinking Animation */
+.blinking {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* Mic Button Animation */
+.micBlink {
+  animation: blink 1s infinite;
+}
+
+/* Audio Controls */
+.audioControls {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.audioButton, .stopButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Hover Effects */
+.button:hover, .recordButton:hover, .audioButton:hover, .stopButton:hover {
+  opacity: 0.8;
+  transform: scale(1.1);
+  transition: all 0.3s ease;
+}
