@@ -7,3 +7,7 @@ gtts
 pydantic
 google-cloud-speech
 python-multipart
+opencv-python
+numpy
+pyttsx3
+mediapipe
