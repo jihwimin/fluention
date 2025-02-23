@@ -3,3 +3,4 @@ node_modules/
 backend/secondstep/.env.next/
 backend/.env
 backend/google_credentials.json
+backend/secondstep/.env
