@@ -7,22 +7,22 @@ import requests
 
 st.title("🎤 AI Speech-to-Text & Normalization")
 
-# 🔹 녹음 설정
-duration = 5  # 녹음 시간 (초)
-sample_rate = 44100  # 샘플링 레이트
+
+duration = 7  
+sample_rate = 44100  
 
 if st.button("🎙 Start Recording"):
     st.write("🔴 Recording for 5 seconds...")
     recording = sd.rec(int(duration * sample_rate), samplerate=sample_rate, channels=1, dtype=np.int16)
-    sd.wait()  # 녹음 완료까지 대기
+    sd.wait()  
     st.write("✅ Recording finished.")
 
-    # WAV 파일로 변환
+    
     audio_bytes = io.BytesIO()
     wavio.write(audio_bytes, recording, sample_rate, sampwidth=2)
     audio_bytes.seek(0)
 
-    # FastAPI 서버로 오디오 전송
+    
     files = {"file": ("recorded_audio.wav", audio_bytes, "audio/wav")}
     response = requests.post("http://127.0.0.1:8000/upload-audio/", files=files)
 
@@ -30,7 +30,7 @@ if st.button("🎙 Start Recording"):
         result = response.json()
         st.success("✅ Processing complete!")
 
-        # 📝 원본 및 정규화된 텍스트 가져오기
+        
         original_text = result.get("original_text", "❌ No transcription received.")
         normalized_text = result.get("normalized_text", "❌ Normalization failed.")
 
