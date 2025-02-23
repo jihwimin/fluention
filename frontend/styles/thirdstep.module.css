@@ -154,21 +154,24 @@
   transform: scale(1.1);
 }
 
-/* Recording Button */
+/* Mic Button */
 .recordButton {
-  background: #FFC525;
+  background: none;
   border: none;
-  padding: 12px;
-  border-radius: 50%;
-  font-size: 1.5rem;
-  margin-top: 20px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: opacity 0.3s ease-in-out; /* Smooth fade */
 }
 
-.recordButton:hover {
-  background: #FFB400;
-  transform: scale(1.1);
+/* When recording, the mic blinks */
+.micBlink {
+  animation: blink 1s infinite;
+}
+
+/* Blinking Animation */
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
 }
 
 /* Feedback Bar */

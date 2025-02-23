@@ -138,13 +138,24 @@ export default function ThirdStep() {
                     <div className={styles.wordContainer}>
                         <button className={styles.wordButton}>{currentWord}</button>
                         <button className={styles.playButton} onClick={playWordPronunciation}>
-                            🔊
+                            <Image src="/icons/speaker.png" alt="Speaker" width={30} height={30} />
                         </button>
                     </div>
 
                     {/* Recording Button */}
-                    <button className={styles.recordButton} onClick={startRecording} disabled={isRecording}>
-                        {isRecording ? "🎤 Listening..." : "🎤"}
+                    <button 
+                        className={styles.recordButton} 
+                        onClick={startRecording} 
+                        disabled={isRecording}
+                        style={{ opacity: isRecording ? 0.5 : 1, transition: "opacity 0.3s ease-in-out" }} // Transparency Effect
+                    >
+                        <Image 
+                            src="/icons/mic.png" 
+                            alt="Mic" 
+                            width={40} 
+                            height={40} 
+                            className={isRecording ? styles.micBlink : ""} // Apply blinking animation when recording
+                        />
                     </button>
                 </div>
             </div>
