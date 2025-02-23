@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-Exercise</title>
+    <script>
+        function startCountdown() {
+            let counter = 3;
+            const interval = setInterval(() => {
+                document.getElementById('countdown').innerText = counter;
+                counter--;
+                if (counter < 0) {
+                    clearInterval(interval);
+                    window.location.href = "/exercise"; // Redirect to the exercise screen
+                }
+            }, 1000);
+        }
+    </script>
+</head>
+<body onload="startCountdown()">
+    <h1>GET READY!</h1>
+    <h2>{{ exercise_text }}</h2>
+    <h3>Starting in <span id="countdown">3</span>...</h3>
+
+    <video width="640" height="360" muted autoplay loop playsinline>
+        <source src="{{ example_video }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</body>
+</html>
