@@ -6,3 +6,4 @@ python-dotenv
 gtts
 pydantic
 google-cloud-speech
+python-multipart
