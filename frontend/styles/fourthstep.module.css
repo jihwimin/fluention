@@ -2,108 +2,94 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 60%;
+  margin: auto;
   padding: 20px;
-  background-color: #f0f4f7;
-  min-height: 100vh;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .title {
-  font-size: 2.5rem;
+  font-size: 24px;
   font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
+/* ✅ Voice Selection */
 .voiceSelection {
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-.voiceSelection label {
-  font-size: 1.2rem;
-  margin-right: 10px;
-  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 .dropdown {
-  padding: 10px;
-  font-size: 1rem;
+  padding: 8px;
   border-radius: 5px;
-  border: 1px solid #ddd;
-  background-color: #fff;
-  cursor: pointer;
+  border: 1px solid #ccc;
+  font-size: 16px;
 }
 
+/* ✅ Chat Container */
 .chatContainer {
   width: 100%;
-  max-width: 600px;
-  margin-bottom: 30px;
-  padding: 15px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding: 10px;
+  max-height: 400px;
   overflow-y: auto;
-  height: 250px;
 }
 
+/* ✅ User Input (Right) */
 .message {
-  margin: 10px 0;
-  font-size: 1rem;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 60%;
+  word-wrap: break-word;
 }
 
+/* ✅ User messages on the right */
 .user {
-  text-align: left;
-  color: #4a90e2;
-}
-
-.ai {
+  align-self: flex-end;
+  background-color: #007bff;
+  color: white;
   text-align: right;
-  color: #3b3b3b;
 }
 
+/* ✅ AI messages on the left */
+.ai {
+  align-self: flex-start;
+  background-color: #e0e0e0;
+  color: black;
+}
+
+/* ✅ Audio Controls */
+.audioControls {
+  display: flex;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+/* ✅ Mic and Stop Buttons */
 .buttonContainer {
   display: flex;
-  justify-content: center;
-  gap: 15px;
-}
-
-.button {
-  padding: 10px 20px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .recordButton {
-  background-color: #4caf50;
+  background-color: #28a745;
   color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .recordButton:disabled {
-  background-color: #c1e1c1;
-}
-
-.stopButton {
-  background-color: #f44336;
-  color: white;
-}
-
-.stopButton:disabled {
-  background-color: #f8d7d7;
-}
-
-.audioContainer {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  max-width: 600px;
-}
-
-.audio {
-  width: 100%;
-  max-width: 400px;
-  border-radius: 5px;
+  background-color: #bbb;
+  cursor: not-allowed;
 }
