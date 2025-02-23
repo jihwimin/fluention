@@ -230,35 +230,184 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-.solution {
-  padding: 40px;
-  background-color: #FFC525;
+.solutionSection {
+  position: relative;
+  min-height: 1600px;
+  text-align: center;
+  padding: 120px 20px;
 }
 
+.solutionTitle {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.solutionDescription {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 40px auto 100px; /* Increased bottom margin to push it down */
+  line-height: 1.6;
+}
+
+
+/* Styling for Large Numbers */
+.bigNumber {
+  font-family: 'Lily Script One', cursive;
+  font-size: 800px;
+  color: black;
+  position: absolute;
+  z-index: -1; /* Push behind everything */
+  opacity: 1; /* Light transparency */
+}
+
+.number1 {
+  top: 180px;
+  right: 10%;
+}
+
+.number2 {
+  top: 900px;
+  left: 10%;
+}
+
+/* Circle Elements */
+.circle {
+  width: 750px;
+  height: 750px;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.yellowCircle {
+  background-color: #FFC525;
+  top: 400px;
+  left: 5%;
+}
+
+.orangeCircle {
+  background-color: white;
+  border: 3px solid #FFC525;
+  top: 950px;
+  right: 5%;
+}
+
+/* AI Services Container */
 .services {
   display: flex;
   justify-content: center;
-  gap: 30px;
-  padding: 40px;
+  align-items: center;
+  gap: 80px;
+  flex-wrap: wrap;
+  margin-top: 300px;
+  position: relative; /* Make sure children respect layering */
+  z-index: 3;
 }
 
+/* Service Boxes */
 .serviceBox {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  width: 40%;
+  position: relative;
+  width: 650px;
+  text-align: center;
+  background: none;
+  padding: 0px;
+  z-index: 5;
 }
+
+.serviceBoxLeft {
+  position: relative;
+  top: 0px; /* Moves up */
+  left: 70px;
+  z-index: 5; /* Ensure text stays on top */
+}
+
+/* Right Box (Moves Down) */
+.serviceBoxRight {
+  position: relative;
+  top: 550px; /* Moves down */
+  right: 75px;
+  z-index: 5; /* Ensure text stays on top */
+}
+
+/* Title Highlights */
+.serviceTitle {
+  display: inline-block;
+  font-size: 1.8rem;
+  font-weight: bold;
+  position: relative;
+  z-index: 6; /* Titles stay in front */
+  padding: 5px 10px;
+}
+
+.serviceTitleLeft {
+  background: white; /* Highlight for left title */
+}
+
+.serviceTitleRight {
+  background: #FFC525; /* Highlight for right title */
+}
+
+/* Service Descriptions */
+.serviceBox p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  z-index: 6; /* Make sure text stays in front */
+  position: relative;
+}
+
+
+/* Default Button Style */
+.learnMoreBtn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Left Button (Orange Background) */
+.learnMoreLeft {
+  background-color: #FF6225;
+  color: white;
+}
+
+.learnMoreLeft:hover {
+  background-color: #E04D1A; /* Darker shade on hover */
+}
+
+/* Right Button (Yellow Background with White Text) */
+.learnMoreRight {
+  background-color: #FFC525;
+  color: white;
+}
+
+.learnMoreRight:hover {
+  background-color: #E6AE22; /* Slightly darker yellow on hover */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .aboutUs {
   padding: 40px;
@@ -282,3 +431,5 @@
   color: white;
   text-decoration: none;
 }
+
+
