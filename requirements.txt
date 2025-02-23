@@ -1,3 +1,16 @@
+fastapi
+uvicorn
+requests
+openai
+python-dotenv
+gtts
+pydantic
+google-cloud-speech
+python-multipart
+opencv-python
+numpy
+pyttsx3
+mediapipe
 absl-py==2.1.0
 aiohappyeyeballs==2.4.6
 aiohttp==3.11.12
