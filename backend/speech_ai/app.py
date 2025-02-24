@@ -5,7 +5,7 @@ import numpy as np
 import io
 import requests
 
-st.title("🎤 AI Speech-to-Text & Normalization")
+st.title("AI Speech-to-Text & Normalization")
 
 
 duration = 7  
@@ -34,10 +34,10 @@ if st.button("🎙 Start Recording"):
         original_text = result.get("original_text", "❌ No transcription received.")
         normalized_text = result.get("normalized_text", "❌ Normalization failed.")
 
-        st.write("📜 **Original Transcription:**")
+        st.write(" **Original Transcription:**")
         st.text_area("Original", original_text, height=100)
 
-        st.write("✨ **GPT-4 Normalized Text:**")
+        st.write(" **GPT-4 Normalized Text:**")
         st.text_area("Normalized", normalized_text, height=100)
 
     else:
